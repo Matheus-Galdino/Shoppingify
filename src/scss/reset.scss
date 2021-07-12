@@ -1,0 +1,26 @@
+:root {
+  font-size: 62.5%;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  outline: none;
+  box-sizing: border-box;
+  font-family: "Quicksand", sans-serif;
+}
+
+input,
+button,
+select {
+  font-family: "Quicksand", sans-serif;
+}
+
+button {
+  border: none;
+  cursor: pointer;
+}
+
+ul {
+  list-style: none;
+}
