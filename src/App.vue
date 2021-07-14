@@ -2,18 +2,18 @@
   <nav>
     <img src="./assets/logo.svg" alt="logo" />
 
-    <ul class="nav-links">
-      <li class="nav-link">
+    <ul class="nav-links" :style="`--top: ${top}`">
+      <li class="nav-link" @click="handleTabs">
         <router-link to="/">
           <span class="material-icons"> format_list_bulleted </span>
         </router-link>
       </li>
-      <li class="nav-link">
+      <li class="nav-link" @click="handleTabs">
         <router-link to="/">
           <span class="material-icons"> refresh </span>
         </router-link>
       </li>
-      <li class="nav-link">
+      <li class="nav-link" @click="handleTabs">
         <router-link to="/">
           <span class="material-icons"> insights </span>
         </router-link>
@@ -26,6 +26,25 @@
   </nav>
   <router-view />
 </template>
+
+<script lang="ts">
+import { defineComponent } from "vue";
+
+export default defineComponent({
+  name: "App",
+  data() {
+    return {
+      top: 0,
+    };
+  },
+  methods: {
+    handleTabs(e: Event) {
+      const element = e.target as HTMLElement;
+      this.top = element.offsetTop;
+    },
+  },
+});
+</script>
 
 <style lang="scss">
 @import "./scss/reset.scss";
@@ -65,14 +84,15 @@ nav {
   &::before {
     content: "";
     width: 6px;
-    height: 35px;
+    height: 40px;
 
     position: absolute;
-    top: 0;
     left: 0;
+    top: calc(var(--top) * 1px);
 
     background: #f9a109;
     transform: translateY(-10%);
+    transition: all 0.4s ease-out;
     border-radius: 0px 4px 4px 0px;
   }
 }
@@ -83,7 +103,7 @@ nav {
 }
 
 .nav-link:not(:last-of-type) {
-  margin-bottom: 6rem;
+  margin-bottom: 5rem;
 }
 
 .cart {
