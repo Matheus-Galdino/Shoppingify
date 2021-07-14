@@ -27,15 +27,18 @@
   <transition name="slide" mode="out-in">
     <router-view v-if="!showList" />
 
-    <div class="list" v-else></div>
+    <ActiveList v-else />
   </transition>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 
+import ActiveList from "./components/ActiveList.vue";
+
 export default defineComponent({
   name: "App",
+  components: { ActiveList },
   data() {
     return {
       showList: false,
@@ -144,17 +147,12 @@ nav {
   }
 }
 
-.list {
-  height: 100vh;
-  background: #fff0de;
-}
-
 .slide-enter-active {
-  animation: slide-in 0.3s;
+  animation: slide-in 0.2s;
 }
 
 .slide-leave-active {
-  animation: slide-in 0.3s reverse;
+  animation: slide-in 0.2s reverse;
 }
 
 @keyframes slide-in {
