@@ -56,7 +56,7 @@ export default defineComponent({
   background: #fafafe;
 
   display: grid;
-  column-gap: 1rem;
+  column-gap: 2rem;
   grid-template-columns: auto 1fr;
 }
 
@@ -128,6 +128,7 @@ nav {
     color: #fff;
     padding: 4px 6px;
     font-size: 1.3rem;
+    font-weight: bold;
     border-radius: 4px;
     background: #eb5757;
 
