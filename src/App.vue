@@ -3,18 +3,18 @@
     <img src="./assets/logo.svg" alt="logo" />
 
     <ul class="nav-links" :style="`--top: ${top}`">
-      <li class="nav-link" @click="handleTabs">
-        <router-link to="/">
+      <li class="nav-link">
+        <router-link to="/" id="Home-link">
           <span class="material-icons"> format_list_bulleted </span>
         </router-link>
       </li>
-      <li class="nav-link" @click="handleTabs">
-        <router-link to="/">
+      <li class="nav-link">
+        <router-link to="/history" id="History-link">
           <span class="material-icons"> refresh </span>
         </router-link>
       </li>
-      <li class="nav-link" @click="handleTabs">
-        <router-link to="/">
+      <li class="nav-link">
+        <router-link to="/stats" id="Stats-link">
           <span class="material-icons"> insights </span>
         </router-link>
       </li>
@@ -33,14 +33,12 @@ import { defineComponent } from "vue";
 export default defineComponent({
   name: "App",
   data() {
-    return {
-      top: 0,
-    };
+    return {};
   },
-  methods: {
-    handleTabs(e: Event) {
-      const element = e.target as HTMLElement;
-      this.top = element.offsetTop;
+  computed: {
+    top() {
+      const routeName = this.$route.name?.toString();
+      return document.getElementById(`${routeName}-link`)?.offsetTop;
     },
   },
 });
