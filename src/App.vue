@@ -20,11 +20,15 @@
       </li>
     </ul>
 
-    <div class="cart" data-count="4">
+    <div class="cart" data-count="4" @click="toogleList">
       <span class="material-icons-outlined"> shopping_cart </span>
     </div>
   </nav>
-  <router-view />
+  <transition name="slide" mode="out-in">
+    <router-view v-if="!showList" />
+
+    <div class="list" v-else></div>
+  </transition>
 </template>
 
 <script lang="ts">
@@ -33,7 +37,14 @@ import { defineComponent } from "vue";
 export default defineComponent({
   name: "App",
   data() {
-    return {};
+    return {
+      showList: false,
+    };
+  },
+  methods: {
+    toogleList() {
+      this.showList = !this.showList;
+    },
   },
   computed: {
     top() {
@@ -54,7 +65,6 @@ export default defineComponent({
   background: #fafafe;
 
   display: grid;
-  column-gap: 2rem;
   grid-template-columns: auto 1fr;
 }
 
@@ -131,6 +141,28 @@ nav {
     background: #eb5757;
 
     transform: translateY(-50%);
+  }
+}
+
+.list {
+  height: 100vh;
+  background: #fff0de;
+}
+
+.slide-enter-active {
+  animation: slide-in 0.3s;
+}
+
+.slide-leave-active {
+  animation: slide-in 0.3s reverse;
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
   }
 }
 </style>

@@ -58,7 +58,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .home {
-  padding-top: 3rem;
+  padding: 3rem 2rem;
 }
 
 .group-title {
