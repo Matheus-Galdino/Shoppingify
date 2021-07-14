@@ -29,6 +29,30 @@
               <p class="group-item-name">Pre-cooked corn 450g</p>
               <span class="group-item-quantity">1 pcs</span>
             </li>
+            <li class="group-item">
+              <p class="group-item-name">Avocado</p>
+              <span class="group-item-quantity">3 pcs</span>
+            </li>
+            <li class="group-item">
+              <p class="group-item-name">Avocado</p>
+              <span class="group-item-quantity">3 pcs</span>
+            </li>
+            <li class="group-item">
+              <p class="group-item-name">Pre-cooked corn 450g</p>
+              <span class="group-item-quantity">1 pcs</span>
+            </li>
+            <li class="group-item">
+              <p class="group-item-name">Avocado</p>
+              <span class="group-item-quantity">3 pcs</span>
+            </li>
+            <li class="group-item">
+              <p class="group-item-name">Avocado</p>
+              <span class="group-item-quantity">3 pcs</span>
+            </li>
+            <li class="group-item">
+              <p class="group-item-name">Pre-cooked corn 450g</p>
+              <span class="group-item-quantity">1 pcs</span>
+            </li>
           </ul>
         </li>
         <li class="group">
@@ -48,7 +72,12 @@
       </ul>
     </div>
 
-    <div class="list__footer"></div>
+    <div class="list__footer">
+      <form class="list__footer-form">
+        <input type="text" placeholder="Enter a name" />
+        <button>Save</button>
+      </form>
+    </div>
   </section>
 </template>
 
@@ -61,20 +90,20 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .list {
-  height: 100vh;
+  max-height: 100vh;
   max-width: 500px;
   background: #fff0de;
 
-  padding: 3rem;
-  padding-bottom: 0;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
 }
 
 .list__header {
   position: relative;
 
+  margin: 3rem;
   padding: 2rem;
   padding-left: 40%;
-  margin-bottom: 3rem;
   border-radius: 24px;
   background: #80485b;
 
@@ -104,6 +133,11 @@ export default defineComponent({
     border-radius: 12px;
     box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.04);
   }
+}
+
+.list__body {
+  padding: 0 3rem;
+  overflow-y: auto;
 }
 
 .list-title {
@@ -148,5 +182,34 @@ export default defineComponent({
 
 .group-item:not(:last-of-type) {
   margin-bottom: 2rem;
+}
+
+.list__footer {
+  padding: 2rem;
+  background: #fff;
+}
+
+.list__footer-form {
+  display: flex;
+  overflow: hidden;
+  border-radius: 12px;
+  border: 3px solid #f9a109;
+
+  * {
+    display: inline-block;
+    padding: 2rem;
+  }
+
+  input {
+    flex: 1;
+    border: none;
+  }
+
+  button {
+    color: #fff;
+    font-weight: bold;
+    font-size: 1.6rem;
+    background: #f9a109;
+  }
 }
 </style>
