@@ -10,7 +10,12 @@
     </div>
 
     <div class="list__body">
-      <h2 class="list-title">Shopping list</h2>
+      <h2 class="list-title">
+        Shopping list
+        <span class="material-icons" @click="isEditListName = !isEditListName">
+          edit
+        </span>
+      </h2>
 
       <ul class="list-groups">
         <li class="group">
@@ -72,12 +77,14 @@
       </ul>
     </div>
 
-    <div class="list__footer">
-      <form class="list__footer-form">
-        <input type="text" placeholder="Enter a name" />
-        <button>Save</button>
-      </form>
-    </div>
+    <transition name="slide-up">
+      <footer class="list__footer" v-show="isEditListName">
+        <form class="list__footer-form">
+          <input type="text" placeholder="Enter a name" />
+          <button>Save</button>
+        </form>
+      </footer>
+    </transition>
   </section>
 </template>
 
@@ -85,6 +92,11 @@
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "ActiveList",
+  data() {
+    return {
+      isEditListName: false,
+    };
+  },
 });
 </script>
 
@@ -145,6 +157,14 @@ export default defineComponent({
   color: #34333a;
   font-size: 2.4rem;
   margin-bottom: 4rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .material-icons {
+    cursor: pointer;
+  }
 }
 
 .group:not(:last-of-type) {
@@ -210,6 +230,23 @@ export default defineComponent({
     font-weight: bold;
     font-size: 1.6rem;
     background: #f9a109;
+  }
+}
+
+.slide-up-enter-active {
+  animation: slide-up 0.1s ease-in;
+}
+
+.slide-up-leave-active {
+  animation: slide-up 0.1s ease-in reverse;
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(100px);
+  }
+  to {
+    transform: translateY(0);
   }
 }
 </style>
