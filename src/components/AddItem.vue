@@ -25,7 +25,9 @@
     </form>
 
     <div class="actions-group">
-      <button class="borderless">cancel</button>
+      <button class="borderless" @click="$emit('changeTab', 'ActiveList')">
+        cancel
+      </button>
       <button>Save</button>
     </div>
   </aside>

@@ -27,21 +27,27 @@
   <transition name="slide" mode="out-in">
     <router-view v-if="!showList" />
 
-    <ActiveList v-else />
+    <component
+      v-else
+      :is="currentTab"
+      @changeTab="currentTab = $event"
+    ></component>
   </transition>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 
+import AddItem from "./components/AddItem.vue";
 import ActiveList from "./components/ActiveList.vue";
 
 export default defineComponent({
   name: "App",
-  components: { ActiveList },
+  components: { AddItem, ActiveList },
   data() {
     return {
       showList: false,
+      currentTab: "AddItem",
     };
   },
   methods: {
@@ -77,7 +83,7 @@ nav {
   flex-direction: column;
   justify-content: space-between;
 
-  width: 14vw;
+  width: 60px;
   height: 100vh;
   padding: 2rem 0;
   background: #fff;

@@ -6,7 +6,7 @@
         Didn't find what you <br />
         need?
       </h3>
-      <button>Add item</button>
+      <button @click="$emit('changeTab', 'AddItem')">Add item</button>
     </div>
 
     <div class="list__body">
