@@ -1,5 +1,5 @@
 <template>
-  <section class="list">
+  <aside class="list">
     <div class="list__header">
       <img src="../assets/source.svg" alt="a bottle" />
       <h3>
@@ -85,7 +85,7 @@
         </form>
       </footer>
     </transition>
-  </section>
+  </aside>
 </template>
 
 <script lang="ts">
@@ -102,7 +102,6 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .list {
-  max-height: 100vh;
   max-width: 500px;
   background: #fff0de;
 
