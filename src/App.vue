@@ -1,5 +1,5 @@
 <template>
-  <Nav @display-aside="showList = !showList" />
+  <Nav @display-aside="toggleList" />
 
   <transition name="slide" mode="out-in">
     <router-view
@@ -36,7 +36,7 @@ export default defineComponent({
     };
   },
   methods: {
-    toogleList() {
+    toggleList() {
       this.showList = !this.showList;
     },
   },
