@@ -1,7 +1,7 @@
 <template>
   <aside class="item-review">
     <span class="back-button" @click="$emit('changeAside', 'ActiveList')">
-      <span class="material-icons"> arrow_back </span>
+      <span class="material-icons"> arrow_right_alt </span>
       back
     </span>
 
@@ -68,6 +68,7 @@ export default defineComponent({
   .material-icons {
     color: #f9a109;
     margin-right: 6px;
+    transform: rotate(180deg);
   }
 }
 
