@@ -25,12 +25,18 @@
     </div>
   </nav>
   <transition name="slide" mode="out-in">
-    <router-view v-if="!showList" />
+    <router-view
+      v-if="!showList"
+      @changeAside="
+        currentTab = $event;
+        showList = true;
+      "
+    />
 
     <component
       v-else
       :is="currentTab"
-      @changeTab="currentTab = $event"
+      @changeAside="currentTab = $event"
     ></component>
   </transition>
 </template>
@@ -40,14 +46,15 @@ import { defineComponent } from "vue";
 
 import AddItem from "./components/AddItem.vue";
 import ActiveList from "./components/ActiveList.vue";
+import ItemReview from "./components/ItemReview.vue";
 
 export default defineComponent({
   name: "App",
-  components: { AddItem, ActiveList },
+  components: { AddItem, ActiveList, ItemReview },
   data() {
     return {
       showList: false,
-      currentTab: "AddItem",
+      currentTab: "ActiveList",
     };
   },
   methods: {

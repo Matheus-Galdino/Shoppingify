@@ -4,7 +4,7 @@
       <h3 class="group-title">Fruit and vegetables</h3>
 
       <ul class="items">
-        <li class="item">
+        <li class="item" @click="$emit('changeAside', 'ItemReview')">
           <p>Avocado</p>
           <span class="material-icons"> add </span>
         </li>
@@ -87,7 +87,9 @@ export default defineComponent({
 
   max-width: 200px;
   min-width: 150px;
+
   padding: 1.3rem;
+  cursor: pointer;
   background: #fff;
   border-radius: 12px;
   box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.05);
@@ -98,7 +100,6 @@ export default defineComponent({
 
   .material-icons {
     font-size: 2rem;
-    cursor: pointer;
     color: #c1c1c4;
   }
 }

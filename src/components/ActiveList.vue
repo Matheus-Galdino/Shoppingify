@@ -6,7 +6,7 @@
         Didn't find what you <br />
         need?
       </h3>
-      <button @click="$emit('changeTab', 'AddItem')">Add item</button>
+      <button @click="$emit('changeAside', 'AddItem')">Add item</button>
     </div>
 
     <div class="list__body">
@@ -102,6 +102,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .list {
+  height: 100vh;
   max-width: 500px;
   background: #fff0de;
 
