@@ -72,7 +72,7 @@ export default defineComponent({
       this.closeTab();
     },
     closeTab() {
-      this.$emit("change-aside", "ActiveList");
+      this.$emit("change-aside-and-close");
     },
   },
   computed: {

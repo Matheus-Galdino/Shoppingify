@@ -1,6 +1,6 @@
 <template>
   <aside class="item-review">
-    <span class="back-button" @click="$emit('change-aside', 'ActiveList')">
+    <span class="back-button" @click="$emit('change-aside-and-close')">
       <span class="material-icons"> arrow_right_alt </span>
       back
     </span>

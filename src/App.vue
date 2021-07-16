@@ -3,10 +3,10 @@
 
   <transition name="slide" mode="out-in">
     <router-view
-      v-if="!showList"
+      v-if="!showAside"
       @change-aside="
         currentTab = $event;
-        showList = true;
+        showAside = true;
       "
     />
 
@@ -14,6 +14,10 @@
       v-else
       :is="currentTab"
       @change-aside="currentTab = $event"
+      @change-aside-and-close="
+        showAside = false;
+        currentTab = 'ActiveList';
+      "
     ></component>
   </transition>
 </template>
@@ -31,13 +35,13 @@ export default defineComponent({
   components: { Nav, AddItem, ActiveList, ItemReview },
   data() {
     return {
-      showList: false,
+      showAside: false,
       currentTab: "ActiveList",
     };
   },
   methods: {
     toggleList() {
-      this.showList = !this.showList;
+      this.showAside = !this.showAside;
     },
   },
   async beforeMount() {
