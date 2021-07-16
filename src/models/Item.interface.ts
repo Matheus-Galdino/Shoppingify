@@ -5,5 +5,6 @@ export default interface Item {
   name: string;
   note: string;
   imageUrl: string;
+  categoryId: number;
   category: Category;
 }

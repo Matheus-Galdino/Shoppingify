@@ -5,39 +5,81 @@
 
       <div class="input-group">
         <label for="name">Name</label>
-        <input type="text" id="name" placeholder="Enter a name" />
+        <input
+          type="text"
+          id="name"
+          placeholder="Enter a name"
+          v-model="item.name"
+        />
       </div>
 
       <div class="input-group">
         <label for="note">Note(optional)</label>
-        <textarea id="note" placeholder="Enter a quote"></textarea>
+        <textarea
+          id="note"
+          placeholder="Enter a quote"
+          v-model="item.note"
+        ></textarea>
       </div>
 
       <div class="input-group">
         <label for="image">Image(optional)</label>
-        <input type="url" id="image" placeholder="Enter a url" />
+        <input
+          type="url"
+          id="image"
+          placeholder="Enter a url"
+          v-model="item.imageUrl"
+        />
       </div>
 
       <div class="input-group">
         <label for="category">Category</label>
-        <input type="text" id="category" placeholder="Type a category" />
+        <select v-model="item.categoryId">
+          <option
+            v-for="category in categories"
+            :value="category.id"
+            :key="category.id"
+          >
+            {{ category.name }}
+          </option>
+        </select>
       </div>
     </form>
 
     <div class="actions-group">
-      <button class="borderless" @click="$emit('changeAside', 'ActiveList')">
-        cancel
-      </button>
-      <button>Save</button>
+      <button class="borderless" @click="closeTab">cancel</button>
+      <button @click="save">Save</button>
     </div>
   </aside>
 </template>
 
 <script lang="ts">
+import API from "@/API";
+import Item from "@/models/Item.interface";
 import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "AddItem",
+  data() {
+    return {
+      item: {} as Item,
+    };
+  },
+  methods: {
+    async save() {
+      await API.saveItem(this.item);
+      this.$store.dispatch("getItems");
+      this.closeTab();
+    },
+    closeTab() {
+      this.$emit("change-aside", "ActiveList");
+    },
+  },
+  computed: {
+    categories() {
+      return this.$store.state.categories;
+    },
+  },
 });
 </script>
 
@@ -60,7 +102,7 @@ export default defineComponent({
     color: #f9a109;
   }
 
-  &:focus-within :is(input, textarea) {
+  &:focus-within :is(input, textarea, select) {
     border-color: #f9a109;
   }
 
@@ -77,6 +119,7 @@ label {
 }
 
 input,
+select,
 textarea {
   display: inline-block;
   width: 100%;
