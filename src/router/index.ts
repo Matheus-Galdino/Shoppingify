@@ -18,6 +18,11 @@ const routes: Array<RouteRecordRaw> = [
     name: "Stats",
     component: History,
   },
+  {
+    path: "/settings",
+    name: "Settings",
+    component: History,
+  },
 ];
 
 const router = createRouter({

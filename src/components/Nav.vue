@@ -18,6 +18,11 @@
           <span class="material-icons"> insights </span>
         </router-link>
       </li>
+      <li class="nav-link">
+        <router-link to="/settings" id="Settings-link">
+          <span class="material-icons"> settings </span>
+        </router-link>
+      </li>
     </ul>
 
     <div class="cart" data-count="4" @click="$emit('display-aside')">
