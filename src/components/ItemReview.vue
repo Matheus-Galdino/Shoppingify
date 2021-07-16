@@ -1,28 +1,22 @@
 <template>
   <aside class="item-review">
-    <span class="back-button" @click="$emit('changeAside', 'ActiveList')">
+    <span class="back-button" @click="$emit('change-aside', 'ActiveList')">
       <span class="material-icons"> arrow_right_alt </span>
       back
     </span>
 
     <div class="item-review__body">
-      <img :src="img" />
+      <img :src="item.imageUrl" />
 
       <span class="title">name</span>
-      <p class="content">Avocado</p>
+      <p class="content">{{ item.name }}</p>
 
       <span class="title">category</span>
-      <p class="content">Fruit and vegetables</p>
+      <p class="content">{{ item.category.name }}</p>
 
-      <span class="title">note</span>
+      <span class="title" v-show="item.note">note</span>
       <p class="content">
-        Nutrient-dense foods are those that provide substantial amounts of
-        vitamins, minerals and other nutrients with relatively few calories.
-        One-third of a medium avocado (50 g) has 80 calories and contributes
-        nearly 20 vitamins and minerals, making it a great nutrient-dense food
-        choice. s jasbfjksdbfjk
-
-        <!-- max chars: 300 -->
+        {{ item.note }}
       </p>
     </div>
 
@@ -38,10 +32,10 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "ItemReview",
-  data() {
-    return {
-      img: "https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1268&q=80",
-    };
+  computed: {
+    item() {
+      return this.$store.state.detailItem;
+    },
   },
 });
 </script>
@@ -75,6 +69,9 @@ export default defineComponent({
 .item-review__body {
   img {
     width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+
     border-radius: 25px;
     margin-bottom: 1rem;
   }
