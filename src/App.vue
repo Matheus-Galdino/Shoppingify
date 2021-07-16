@@ -40,6 +40,9 @@ export default defineComponent({
       this.showList = !this.showList;
     },
   },
+  async beforeMount() {
+    await this.$store.dispatch("getItems");
+  },
 });
 </script>
 
