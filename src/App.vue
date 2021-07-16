@@ -4,7 +4,7 @@
   <transition name="slide" mode="out-in">
     <router-view
       v-if="!showList"
-      @changeAside="
+      @change-aside="
         currentTab = $event;
         showList = true;
       "
@@ -13,7 +13,7 @@
     <component
       v-else
       :is="currentTab"
-      @changeAside="currentTab = $event"
+      @change-aside="currentTab = $event"
     ></component>
   </transition>
 </template>
