@@ -11,7 +11,7 @@
 
     <div class="list__body">
       <h2 class="list-title">
-        Shopping list
+        {{ activeList.name }}
         <span class="material-icons" @click="isEditListName = !isEditListName">
           edit
         </span>
@@ -22,30 +22,6 @@
           <h4 class="group-title">Fruit and vegetables</h4>
 
           <ul class="group-items">
-            <li class="group-item">
-              <p class="group-item-name">Avocado</p>
-              <span class="group-item-quantity">3 pcs</span>
-            </li>
-            <li class="group-item">
-              <p class="group-item-name">Avocado</p>
-              <span class="group-item-quantity">3 pcs</span>
-            </li>
-            <li class="group-item">
-              <p class="group-item-name">Pre-cooked corn 450g</p>
-              <span class="group-item-quantity">1 pcs</span>
-            </li>
-            <li class="group-item">
-              <p class="group-item-name">Avocado</p>
-              <span class="group-item-quantity">3 pcs</span>
-            </li>
-            <li class="group-item">
-              <p class="group-item-name">Avocado</p>
-              <span class="group-item-quantity">3 pcs</span>
-            </li>
-            <li class="group-item">
-              <p class="group-item-name">Pre-cooked corn 450g</p>
-              <span class="group-item-quantity">1 pcs</span>
-            </li>
             <li class="group-item">
               <p class="group-item-name">Avocado</p>
               <span class="group-item-quantity">3 pcs</span>
@@ -89,13 +65,18 @@
 </template>
 
 <script lang="ts">
+import { mapGetters } from "vuex";
 import { defineComponent } from "vue";
+
 export default defineComponent({
   name: "ActiveList",
   data() {
     return {
       isEditListName: false,
     };
+  },
+  computed: {
+    ...mapGetters(["activeList"]),
   },
 });
 </script>
