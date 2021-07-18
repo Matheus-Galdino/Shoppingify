@@ -46,6 +46,7 @@ export default defineComponent({
   },
   async beforeMount() {
     await this.$store.dispatch("getItems");
+    await this.$store.dispatch("getLists");
     await this.$store.dispatch("getCategories");
   },
 });

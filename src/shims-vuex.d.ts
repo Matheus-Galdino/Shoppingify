@@ -11,6 +11,7 @@ declare module "@vue/runtime-core" {
     items: ItemGroup[];
     detailItem: Item;
     categories: Category[];
+    lists: ShoppingList[];
   }
 
   // provide typings for `this.$store`
