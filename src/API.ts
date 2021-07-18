@@ -1,5 +1,5 @@
-import Category from "./models/Category.interface";
 import Item from "./models/Item.interface";
+import Category from "./models/Category.interface";
 import ItemGroup from "./models/ItemGroup.interface";
 import ShoppingList from "./models/ShoppingList.interface";
 
@@ -27,6 +27,19 @@ export default {
 
     const result = await fetch("https://localhost:44333/api/item", {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body,
+    });
+
+    if (!result.ok) throw new Error("Something went wrong");
+  },
+  async deleteItem(item: Item) {
+    const body = JSON.stringify(item);
+
+    const result = await fetch("https://localhost:44333/api/item", {
+      method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },

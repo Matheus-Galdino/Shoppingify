@@ -21,17 +21,26 @@
     </div>
 
     <div class="item-review__actions">
-      <button class="borderless">delete</button>
+      <button class="borderless" @click="deleteItem">delete</button>
       <button>Add to list</button>
     </div>
   </aside>
 </template>
 
 <script lang="ts">
+import API from "@/API";
 import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "ItemReview",
+  methods: {
+    async deleteItem() {
+      await API.deleteItem(this.item);
+      this.$store.dispatch("getItems");
+      this.$emit("change-aside-and-close");
+      this.$store.commit("setDetailItem", null);
+    },
+  },
   computed: {
     item() {
       return this.$store.state.detailItem;
