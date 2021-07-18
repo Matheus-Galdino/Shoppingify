@@ -25,18 +25,24 @@
       </li>
     </ul>
 
-    <div class="cart" data-count="4" @click="$emit('display-aside')">
+    <div
+      class="cart"
+      :data-count="activeListCount"
+      @click="$emit('display-aside')"
+    >
       <span class="material-icons-outlined"> shopping_cart </span>
     </div>
   </nav>
 </template>
 
 <script lang="ts">
+import { mapGetters } from "vuex";
 import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "Nav",
   computed: {
+    ...mapGetters(["activeListCount"]),
     top() {
       const routeName = this.$route.name?.toString();
       return document.getElementById(`${routeName}-link`)?.offsetTop;

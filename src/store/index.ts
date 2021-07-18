@@ -16,10 +16,10 @@ export default createStore({
   },
   getters: {
     activeList(state) {
-      return state.lists.filter((x) => x.active)[0];
+      return state.lists.find(x => x.active);
     },
     activeListCount(state, getters) {
-      return getters.activeList.items.length;
+      return getters.activeList?.items?.length ?? 0;            
     },
   },
   mutations: {
