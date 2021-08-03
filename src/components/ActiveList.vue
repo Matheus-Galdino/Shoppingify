@@ -6,7 +6,7 @@
         Didn't find what you <br />
         need?
       </h3>
-      <button @click="$emit('changeAside', 'AddItem')">Add item</button>
+      <button @click="$emit('change-aside', 'AddItem')">Add item</button>
     </div>
 
     <div class="list__body">
@@ -18,35 +18,13 @@
       </h2>
 
       <ul class="list-groups">
-        <li class="group">
-          <h4 class="group-title">Fruit and vegetables</h4>
+        <li class="group" v-for="(group, index) in groups" :key="index">
+          <h4 class="group-title">{{ group.key }}</h4>
 
           <ul class="group-items">
-            <li class="group-item">
-              <p class="group-item-name">Avocado</p>
-              <span class="group-item-quantity">3 pcs</span>
-            </li>
-            <li class="group-item">
-              <p class="group-item-name">Avocado</p>
-              <span class="group-item-quantity">3 pcs</span>
-            </li>
-            <li class="group-item">
-              <p class="group-item-name">Pre-cooked corn 450g</p>
-              <span class="group-item-quantity">1 pcs</span>
-            </li>
-          </ul>
-        </li>
-        <li class="group">
-          <h4 class="group-title">Fruit and vegetables</h4>
-
-          <ul class="group-items">
-            <li class="group-item">
-              <p class="group-item-name">Avocado</p>
-              <span class="group-item-quantity">3 pcs</span>
-            </li>
-            <li class="group-item">
-              <p class="group-item-name">Pre-cooked corn 450g</p>
-              <span class="group-item-quantity">1 pcs</span>
+            <li class="group-item" v-for="item in group.items" :key="item.id">
+              <p class="group-item-name">{{ item.item.name }}</p>
+              <span class="group-item-quantity">{{ item.quantity }} pcs</span>
             </li>
           </ul>
         </li>
@@ -68,15 +46,23 @@
 import { mapGetters } from "vuex";
 import { defineComponent } from "vue";
 
+import API from "@/API";
+import Group from "@/models/Group.interface";
+import ShoppingListItem from "@/models/ShoppingListItem.interface";
+
 export default defineComponent({
   name: "ActiveList",
   data() {
     return {
       isEditListName: false,
+      groups: [] as Group<ShoppingListItem>[],
     };
   },
   computed: {
     ...mapGetters(["activeList"]),
+  },
+  async beforeMount() {
+    this.groups = await API.getListItems(this.activeList.id);
   },
 });
 </script>
