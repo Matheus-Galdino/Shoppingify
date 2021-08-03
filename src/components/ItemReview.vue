@@ -22,7 +22,7 @@
 
     <div class="item-review__actions">
       <button class="borderless" @click="deleteItem">delete</button>
-      <button>Add to list</button>
+      <button @click="addToList">Add to list</button>
     </div>
   </aside>
 </template>
@@ -36,9 +36,20 @@ export default defineComponent({
   methods: {
     async deleteItem() {
       await API.deleteItem(this.item);
-      this.$store.dispatch("getItems");
+      await this.$store.dispatch("getItems");
       this.$emit("change-aside-and-close");
       this.$store.commit("setDetailItem", null);
+    },
+    async addToList() {
+      const listId = this.$store.state.activeList?.id;
+
+      if (!listId) {
+        alert("Cannot add item without an active list");
+        return;
+      }
+
+      await API.addItemToList(listId, this.item.id);
+      await this.$store.dispatch("getActiveListItems");
     },
   },
   computed: {

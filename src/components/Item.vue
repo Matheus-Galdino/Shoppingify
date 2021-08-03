@@ -1,11 +1,12 @@
 <template>
-  <li class="item" @click="clickHandler">
-    <p>{{ item.name }}</p>
-    <span class="material-icons"> add </span>
+  <li class="item">
+    <p @click="clickHandler">{{ item.name }}</p>
+    <span class="material-icons" @click="addToList"> add </span>
   </li>
 </template>
 
 <script lang="ts">
+import API from "@/API";
 import ItemType from "@/models/Item.interface";
 import { defineComponent, PropType } from "vue";
 
@@ -21,6 +22,17 @@ export default defineComponent({
     clickHandler() {
       this.$store.commit("setDetailItem", this.item);
       this.$emit("opened");
+    },
+    async addToList() {
+      const listId = this.$store.state.activeList?.id;
+
+      if (!listId) {
+        alert("Cannot add item without an active list");
+        return;
+      }
+
+      await API.addItemToList(listId, this.item.id);
+      await this.$store.dispatch("getActiveListItems");
     },
   },
 });
@@ -38,16 +50,18 @@ export default defineComponent({
   min-width: 150px;
 
   padding: 1.3rem;
-  cursor: pointer;
   background: #fff;
   border-radius: 12px;
   box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.05);
 
   p {
+    flex-grow: 1;
+    cursor: pointer;
     font-size: 1.4rem;
   }
 
   .material-icons {
+    cursor: pointer;
     font-size: 2rem;
     color: #c1c1c4;
   }

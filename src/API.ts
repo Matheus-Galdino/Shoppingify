@@ -29,6 +29,13 @@ export default {
 
     return json as Group<ShoppingListItem>[];
   },
+  async addItemToList(listId: number, itemId: number) {
+    const result = await fetch(`https://localhost:44333/api/shoppinglist/${listId}/add/${itemId}`, {
+      method: "POST",
+    });
+
+    if (!result.ok) throw new Error("Something went wrong");
+  },
   async saveItem(item: Item) {
     const body = JSON.stringify(item);
 
