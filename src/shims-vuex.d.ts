@@ -4,6 +4,7 @@ import { Store } from "vuex";
 import Item from "./models/Item.interface";
 import Category from "./models/Category.interface";
 import ItemGroup from "./models/ItemGroup.interface";
+import ShoppingList from "./models/ShoppingList.interface";
 
 declare module "@vue/runtime-core" {
   // declare your own store states
@@ -12,6 +13,7 @@ declare module "@vue/runtime-core" {
     items: Group<Item>[];
     categories: Category[];
     lists: ShoppingList[];
+    activeList: ShoppingList;
   }
 
   // provide typings for `this.$store`

@@ -6,6 +6,7 @@ import { createStore } from "vuex";
 
 import API from "../API";
 import ShoppingList from "@/models/ShoppingList.interface";
+import ShoppingListItem from "@/models/ShoppingListItem.interface";
 
 export default createStore({
   state: {
@@ -13,13 +14,11 @@ export default createStore({
     items: [] as Group<Item>[],
     categories: [] as Category[],
     lists: [] as ShoppingList[],
+    activeList: {} as ShoppingList,
   },
   getters: {
-    activeList(state) {
-      return state.lists.find((x) => x.active);
-    },
-    activeListCount(state, getters) {
-      return getters.activeList?.items?.length ?? 0;
+    activeListCount(state) {
+      return state.activeList?.items?.length ?? 0;      
     },
   },
   mutations: {
@@ -35,6 +34,14 @@ export default createStore({
     setLists(state, lists: ShoppingList[]) {
       state.lists = lists;
     },
+    setActiveList(state) {
+      state.activeList = state.lists.find((x) => x.active) ?? ({} as ShoppingList);
+    },
+    setActiveListItems(state, items: Group<ShoppingListItem>[]) {
+      if (!state.activeList) return;
+
+      state.activeList.items = items;
+    },
   },
   actions: {
     async getItems({ commit }) {
@@ -48,6 +55,10 @@ export default createStore({
     async getLists({ commit }) {
       const lists = await API.getLists();
       commit("setLists", lists);
+    },
+    async getActiveListItems({ commit, state }) {
+      const items = await API.getListItems(state.activeList.id);
+      commit("setActiveListItems", items);
     },
   },
 });

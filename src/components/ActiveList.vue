@@ -18,7 +18,11 @@
       </h2>
 
       <ul class="list-groups">
-        <li class="group" v-for="(group, index) in groups" :key="index">
+        <li
+          class="group"
+          v-for="(group, index) in activeList.items"
+          :key="index"
+        >
           <h4 class="group-title">{{ group.key }}</h4>
 
           <ul class="group-items">
@@ -43,26 +47,19 @@
 </template>
 
 <script lang="ts">
-import { mapGetters } from "vuex";
 import { defineComponent } from "vue";
-
-import API from "@/API";
-import Group from "@/models/Group.interface";
-import ShoppingListItem from "@/models/ShoppingListItem.interface";
 
 export default defineComponent({
   name: "ActiveList",
   data() {
     return {
       isEditListName: false,
-      groups: [] as Group<ShoppingListItem>[],
     };
   },
   computed: {
-    ...mapGetters(["activeList"]),
-  },
-  async beforeMount() {
-    this.groups = await API.getListItems(this.activeList.id);
+    activeList() {
+      return this.$store.state.activeList;
+    },
   },
 });
 </script>

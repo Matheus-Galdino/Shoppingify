@@ -48,6 +48,12 @@ export default defineComponent({
     await this.$store.dispatch("getItems");
     await this.$store.dispatch("getLists");
     await this.$store.dispatch("getCategories");
+
+    this.$store.commit("setActiveList");
+
+    if (!this.$store.state.activeList?.id) return;
+
+    await this.$store.dispatch("getActiveListItems");
   },
 });
 </script>
