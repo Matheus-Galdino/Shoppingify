@@ -8,8 +8,8 @@ import ItemGroup from "./models/ItemGroup.interface";
 declare module "@vue/runtime-core" {
   // declare your own store states
   interface State {
-    items: ItemGroup[];
     detailItem: Item;
+    items: Group<Item>[];
     categories: Category[];
     lists: ShoppingList[];
   }

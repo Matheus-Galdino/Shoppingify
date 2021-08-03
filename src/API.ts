@@ -1,6 +1,6 @@
 import Item from "./models/Item.interface";
+import Group from "./models/Group.interface";
 import Category from "./models/Category.interface";
-import ItemGroup from "./models/ItemGroup.interface";
 import ShoppingList from "./models/ShoppingList.interface";
 
 export default {
@@ -8,7 +8,7 @@ export default {
     const result = await fetch("https://localhost:44333/api/item");
     const json = await result.json();
 
-    return json as ItemGroup[];
+    return json as Group<Item>[];
   },
   async getCategories() {
     const result = await fetch("https://localhost:44333/api/category");

@@ -1,6 +1,6 @@
 import Item from "@/models/Item.interface";
+import Group from "@/models/Group.interface";
 import Category from "@/models/Category.interface";
-import ItemGroup from "@/models/ItemGroup.interface";
 
 import { createStore } from "vuex";
 
@@ -9,21 +9,21 @@ import ShoppingList from "@/models/ShoppingList.interface";
 
 export default createStore({
   state: {
-    items: [] as ItemGroup[],
     detailItem: {} as Item,
+    items: [] as Group<Item>[],
     categories: [] as Category[],
     lists: [] as ShoppingList[],
   },
   getters: {
     activeList(state) {
-      return state.lists.find(x => x.active);
+      return state.lists.find((x) => x.active);
     },
     activeListCount(state, getters) {
-      return getters.activeList?.items?.length ?? 0;            
+      return getters.activeList?.items?.length ?? 0;
     },
   },
   mutations: {
-    setItems(state, items: ItemGroup[]) {
+    setItems(state, items: Group<Item>[]) {
       state.items = items;
     },
     setDetailItem(state, item: Item) {

@@ -1,3 +1,4 @@
+import Group from "./Group.interface";
 import ShoppingListItem from "./ShoppingListItem.interface";
 
 export default interface ShoppingList {
@@ -5,5 +6,5 @@ export default interface ShoppingList {
   date: Date;
   name: string;
   active: boolean;
-  items: ShoppingListItem[];
+  items: Group<ShoppingListItem>[];
 }

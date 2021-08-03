@@ -16,15 +16,16 @@
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
 
-import ItemGroupType from "@/models/ItemGroup.interface";
 import Item from "./Item.vue";
+import ItemType from "@/models/Item.interface";
+import GroupType from "@/models/Group.interface";
 
 export default defineComponent({
   components: { Item },
   name: "ItemGroup",
   props: {
     group: {
-      type: Object as PropType<ItemGroupType>,
+      type: Object as PropType<GroupType<ItemType>>,
       required: true,
     },
   },
