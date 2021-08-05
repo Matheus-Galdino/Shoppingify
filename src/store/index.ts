@@ -18,8 +18,9 @@ export default createStore({
   },
   getters: {
     activeListCount(state) {
-      return state.activeList?.items?.length ?? 0;      
+      return state.activeList?.items?.length ?? 0;
     },
+    getList: (state) => (listId: number) => state.lists.find((x) => x.id === listId),
   },
   mutations: {
     setItems(state, items: Group<Item>[]) {
