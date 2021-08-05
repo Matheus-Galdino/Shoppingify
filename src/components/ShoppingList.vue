@@ -65,9 +65,8 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .shopping-list {
-  height: 5rem;
   display: flex;
-  padding: 0 1rem;
+  padding: 1rem;
   column-gap: 1.5rem;
   align-items: center;
 
@@ -99,7 +98,7 @@ export default defineComponent({
 
     color: #7cea9c;
     border-radius: 8px;
-    box-sizing: border-box;
+    white-space: nowrap;
     text-transform: lowercase;
     border: 1px solid #7cea9c;
 
