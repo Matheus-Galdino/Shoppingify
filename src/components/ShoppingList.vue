@@ -7,7 +7,9 @@
       {{ list.date }}
     </p>
 
-    <span class="shopping-list__status completed"> completed </span>
+    <span :class="['shopping-list__status', listStatusString]">
+      {{ listStatusString }}
+    </span>
 
     <router-link to="/">
       <span class="material-icons"> navigate_next </span>
@@ -18,10 +20,11 @@
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
 
-import CustomRadio from "./CustomRadio.vue";
-
-import ShoppingList from "@/models/ShoppingList.interface";
 import API from "@/API";
+import ListStatus from "@/models/ListStatus.enum";
+
+import CustomRadio from "./CustomRadio.vue";
+import ShoppingList from "@/models/ShoppingList.interface";
 
 export default defineComponent({
   name: "ShoppingList",
@@ -35,6 +38,9 @@ export default defineComponent({
   computed: {
     listDate(): string {
       return this.list.date.toDateString();
+    },
+    listStatusString(): string {
+      return ListStatus[this.list.status].replace("_", " ");
     },
   },
   methods: {
@@ -80,18 +86,22 @@ export default defineComponent({
 
   &__status {
     padding: 5px;
+    font-size: 1.1rem;
+    font-weight: bold;
     display: inline-block;
 
-    border: 1px solid;
+    color: #7cea9c;
     border-radius: 8px;
     box-sizing: border-box;
+    text-transform: lowercase;
+    border: 1px solid #7cea9c;
 
-    &.completed {
+    &.Completed {
       color: #56ccf2;
       border-color: #56ccf2;
     }
 
-    &.cancelled {
+    &.Cancelled {
       color: #eb5757;
       border-color: #eb5757;
     }

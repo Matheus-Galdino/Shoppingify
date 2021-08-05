@@ -3,3 +3,5 @@ enum ListStatus {
   Cancelled = 1,
   Completed = 2,
 }
+
+export default ListStatus;

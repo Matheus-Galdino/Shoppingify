@@ -1,4 +1,5 @@
 import Group from "./Group.interface";
+import ListStatus from "./ListStatus.enum";
 import ShoppingListItem from "./ShoppingListItem.interface";
 
 export default interface ShoppingList {
