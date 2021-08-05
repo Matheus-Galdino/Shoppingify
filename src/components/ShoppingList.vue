@@ -1,6 +1,10 @@
 <template>
   <li class="shopping-list">
-    <Custom-radio :checked="list.active" @click="changeActive" />
+    <Custom-radio
+      :checked="list.active"
+      @click="changeActive"
+      v-show="canSetActive"
+    />
     <p class="shopping-list__name">{{ list.name }}</p>
     <p class="shopping-list__date">
       <span class="material-icons"> event_note </span>
@@ -41,6 +45,9 @@ export default defineComponent({
     },
     listStatusString(): string {
       return ListStatus[this.list.status].replace("_", " ");
+    },
+    canSetActive(): boolean {
+      return this.list.status !== ListStatus.Cancelled;
     },
   },
   methods: {
