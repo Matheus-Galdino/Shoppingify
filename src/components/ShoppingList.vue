@@ -47,7 +47,7 @@ export default defineComponent({
       return ListStatus[this.list.status].replace("_", " ");
     },
     canSetActive(): boolean {
-      return this.list.status !== ListStatus.Cancelled;
+      return this.list.status === ListStatus.In_Progress;
     },
   },
   methods: {
