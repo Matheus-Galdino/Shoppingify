@@ -6,5 +6,6 @@ export default interface ShoppingList {
   date: Date;
   name: string;
   active: boolean;
+  status: ListStatus;
   items: Group<ShoppingListItem>[];
 }
