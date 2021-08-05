@@ -36,6 +36,13 @@ export default {
 
     if (!result.ok) throw new Error("Something went wrong");
   },
+  async changeActiveList(listId: number) {
+    const result = await fetch(`https://localhost:44333/api/shoppinglist/active/${listId}`, {
+      method: "PUT",
+    });
+
+    if (!result.ok) throw new Error("Something went wrong");
+  },
   async saveItem(item: Item) {
     const body = JSON.stringify(item);
 

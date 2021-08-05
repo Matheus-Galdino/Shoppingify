@@ -1,6 +1,6 @@
 <template>
   <li class="shopping-list">
-    <!-- <Custom-radio /> -->
+    <Custom-radio :checked="list.active" @click="changeActive" />
     <p class="shopping-list__name">{{ list.name }}</p>
     <p class="shopping-list__date">
       <span class="material-icons"> event_note </span>
@@ -18,10 +18,14 @@
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
 
+import CustomRadio from "./CustomRadio.vue";
+
 import ShoppingList from "@/models/ShoppingList.interface";
+import API from "@/API";
 
 export default defineComponent({
   name: "ShoppingList",
+  components: { CustomRadio },
   props: {
     list: {
       type: Object as PropType<ShoppingList>,
@@ -33,6 +37,16 @@ export default defineComponent({
       return this.list.date.toDateString();
     },
   },
+  methods: {
+    async changeActive() {
+      if (this.list.active) return;
+
+      await API.changeActiveList(this.list.id);
+      await this.$store.dispatch("getLists");
+      this.$store.commit("setActiveList");
+      await this.$store.dispatch("getActiveListItems");
+    },
+  },
 });
 </script>
 
@@ -41,7 +55,7 @@ export default defineComponent({
   height: 5rem;
   display: flex;
   padding: 0 1rem;
-  column-gap: 2.5rem;
+  column-gap: 1.5rem;
   align-items: center;
 
   background: #fff;
