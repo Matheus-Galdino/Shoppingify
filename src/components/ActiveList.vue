@@ -34,8 +34,8 @@
             >
               <Edit-quantity
                 :itemQuantity="item.quantity"
-                @confirm="updateQuantity(item.item.id)"
                 @remove-item="removeItem(item.item.id)"
+                @confirm="updateQuantity(item.item.id, $event)"
               />
             </Shopping-list-item>
           </ul>
@@ -55,6 +55,7 @@
 </template>
 
 <script lang="ts">
+import API from "@/API";
 import { defineComponent } from "vue";
 
 import EditQuantity from "./EditQuantity.vue";
@@ -69,8 +70,10 @@ export default defineComponent({
     };
   },
   methods: {
-    updateQuantity(itemId: number) {
-      console.log(itemId);
+    async updateQuantity(itemId: number, quantity: number) {
+      const listId = this.activeList.id;
+
+      await API.changeListItemQuantity(listId, itemId, quantity);
     },
     removeItem(itemId: number) {
       console.log(itemId);

@@ -52,8 +52,8 @@ export default defineComponent({
       if (result) this.$emit("remove-item");
     },
     confirm() {
-      this.$emit("confirm");
       this.isEditing = false;
+      this.$emit("confirm", this.quantity);
     },
   },
   computed: {
