@@ -6,23 +6,28 @@ import ListDetails from "../views/ListDetails.vue";
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
+    name: "Home",
     component: Home,
   },
   {
     path: "/history",
+    name: "History",
     component: History,
   },
   {
     path: "/stats",
+    name: "Stats",
     component: History,
   },
   {
     path: "/settings",
+    name: "Settings",
     component: History,
   },
   {
     props: true,
     path: "/list/:id",
+    name: "ListDetails",
     component: ListDetails,
   },
 ];

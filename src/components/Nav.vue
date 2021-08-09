@@ -45,7 +45,8 @@ export default defineComponent({
     ...mapGetters(["activeListCount"]),
     top() {
       const routeName = this.$route.name?.toString();
-      return document.getElementById(`${routeName}-link`)?.offsetTop;
+
+      return document.getElementById(`${routeName}-link`)?.offsetTop ?? 0;
     },
   },
 });
