@@ -15,7 +15,7 @@
       {{ listStatusString }}
     </span>
 
-    <router-link to="/">
+    <router-link :to="`/list/${list.id}`">
       <span class="material-icons"> navigate_next </span>
     </router-link>
   </li>
