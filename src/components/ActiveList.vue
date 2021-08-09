@@ -26,10 +26,18 @@
           <h4 class="group-title">{{ group.key }}</h4>
 
           <ul class="group-items">
-            <li class="group-item" v-for="item in group.items" :key="item.id">
-              <p class="group-item-name">{{ item.item.name }}</p>
-              <span class="group-item-quantity">{{ item.quantity }} pcs</span>
-            </li>
+            <Shopping-list-item
+              :key="item.id"
+              :item="item.item"
+              class="group-item"
+              v-for="item in group.items"
+            >
+              <Edit-quantity
+                :itemQuantity="item.quantity"
+                @confirm="updateQuantity(item.item.id)"
+                @remove-item="removeItem(item.item.id)"
+              />
+            </Shopping-list-item>
           </ul>
         </li>
       </ul>
@@ -49,12 +57,24 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
+import EditQuantity from "./EditQuantity.vue";
+import ShoppingListItem from "./ShoppingListItem.vue";
+
 export default defineComponent({
   name: "ActiveList",
+  components: { EditQuantity, ShoppingListItem },
   data() {
     return {
       isEditListName: false,
     };
+  },
+  methods: {
+    updateQuantity(itemId: number) {
+      console.log(itemId);
+    },
+    removeItem(itemId: number) {
+      console.log(itemId);
+    },
   },
   computed: {
     activeList() {
@@ -140,27 +160,6 @@ export default defineComponent({
     color: #828282;
     font-size: 1.4rem;
     margin-bottom: 2rem;
-  }
-}
-
-.group-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  &-name {
-    font-size: 1.4rem;
-  }
-
-  &-quantity {
-    display: inline-block;
-
-    color: #f9a109;
-    font-weight: 700;
-    font-size: 1.2rem;
-    border-radius: 24px;
-    padding: 0.8rem 2.3rem;
-    border: 2px solid #f9a109;
   }
 }
 
