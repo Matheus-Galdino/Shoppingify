@@ -49,7 +49,7 @@ export default defineComponent({
 
       //confirm deletion of item
       const result = confirm("Are you sure you want to delete this item?");
-      if (result) this.$emit("remove-item");
+      if (result) this.$emit("delete");
     },
     confirm() {
       this.isEditing = false;

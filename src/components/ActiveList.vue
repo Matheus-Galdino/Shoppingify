@@ -34,7 +34,7 @@
             >
               <Edit-quantity
                 :itemQuantity="item.quantity"
-                @remove-item="removeItem(item.item.id)"
+                @delete="removeItem(item.item.id)"
                 @confirm="updateQuantity(item.item.id, $event)"
               />
             </Shopping-list-item>
@@ -75,8 +75,11 @@ export default defineComponent({
 
       await API.changeListItemQuantity(listId, itemId, quantity);
     },
-    removeItem(itemId: number) {
-      console.log(itemId);
+    async removeItem(itemId: number) {
+      const listId = this.activeList.id;
+
+      await API.removeItemFromList(listId, itemId);
+      this.$store.dispatch("getActiveListItems");
     },
   },
   computed: {
