@@ -34,7 +34,10 @@ export default {
       method: "POST",
     });
 
-    if (!result.ok) throw new Error("Something went wrong");
+    if (!result.ok) {
+      const json = await result.json();
+      throw new Error(json.error);
+    }
   },
   async changeListItemQuantity(listId: number, itemId: number, quantity: number) {
     const result = await fetch(`https://localhost:44333/api/shoppinglist/${listId}/item/${itemId}?quantity=${quantity}`, {
@@ -70,7 +73,10 @@ export default {
       body,
     });
 
-    if (!result.ok) throw new Error("Something went wrong");
+    if (!result.ok) {
+      const json = await result.json();
+      throw new Error(json.error);
+    }
   },
   async deleteItem(item: Item) {
     const body = JSON.stringify(item);
