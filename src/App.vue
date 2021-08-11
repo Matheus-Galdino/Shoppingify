@@ -36,8 +36,6 @@ import AddItem from "./components/AddItem.vue";
 import ActiveList from "./components/ActiveList.vue";
 import ItemReview from "./components/ItemReview.vue";
 
-import ToastType from "./models/Toast.interface";
-
 export default defineComponent({
   name: "App",
   components: { Nav, Toast, AddItem, ActiveList, ItemReview },
@@ -45,9 +43,7 @@ export default defineComponent({
     return {
       timeout: 0,
       showAside: false,
-      showToast: false,
       currentTab: "ActiveList",
-      toastConfig: {} as ToastType,
     };
   },
   methods: {
@@ -55,16 +51,26 @@ export default defineComponent({
       this.showAside = !this.showAside;
     },
     closeToast() {
-      this.showToast = false;
+      this.$store.commit("setShowToast", false);
       clearTimeout(this.timeout);
     },
-    toggleToast(toast: ToastType) {
-      this.showToast = true;
-      this.toastConfig = toast;
-
+    toggleToast() {
       this.timeout = setTimeout(() => {
-        this.showToast = false;
-      }, 3000);
+        this.$store.commit("setShowToast", false);
+      }, 2000);
+    },
+  },
+  computed: {
+    showToast() {
+      return this.$store.state.showToast;
+    },
+    toastConfig() {
+      return this.$store.state.toastConfig;
+    },
+  },
+  watch: {
+    showToast(newValue) {
+      if (newValue) this.toggleToast();
     },
   },
   async beforeMount() {
