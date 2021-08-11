@@ -1,4 +1,5 @@
 import Item from "@/models/Item.interface";
+import Toast from "@/models/Toast.interface";
 import Group from "@/models/Group.interface";
 import Category from "@/models/Category.interface";
 
@@ -10,6 +11,8 @@ import ShoppingListItem from "@/models/ShoppingListItem.interface";
 
 export default createStore({
   state: {
+    showToast: false,
+    toastConfig: {} as Toast,
     detailItem: {} as Item,
     items: [] as Group<Item>[],
     categories: [] as Category[],
@@ -23,6 +26,12 @@ export default createStore({
     getList: (state) => (listId: number) => state.lists.find((x) => x.id === listId),
   },
   mutations: {
+    setShowToast(state, payload: boolean) {
+      state.showToast = payload;
+    },
+    setToastConfig(state, payload: Toast) {
+      state.toastConfig = payload;
+    },
     setItems(state, items: Group<Item>[]) {
       state.items = items;
     },

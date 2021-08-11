@@ -8,6 +8,7 @@
 <script lang="ts">
 import API from "@/API";
 import ItemType from "@/models/Item.interface";
+import Toast from "@/models/Toast.interface";
 import { defineComponent, PropType } from "vue";
 
 export default defineComponent({
@@ -31,8 +32,21 @@ export default defineComponent({
         return;
       }
 
-      await API.addItemToList(listId, this.item.id);
-      await this.$store.dispatch("getActiveListItems");
+      const toastConfig = {} as Toast;
+
+      try {
+        await API.addItemToList(listId, this.item.id);
+        await this.$store.dispatch("getActiveListItems");
+
+        toastConfig.error = false;
+        toastConfig.message = "Item added to list";
+      } catch (error) {
+        toastConfig.error = true;
+        toastConfig.message = error.message;
+      } finally {
+        this.$store.commit("setToastConfig", toastConfig);
+        this.$store.commit("setShowToast", true);
+      }
     },
   },
 });

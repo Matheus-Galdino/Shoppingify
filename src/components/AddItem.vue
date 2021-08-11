@@ -6,10 +6,10 @@
       <div class="input-group">
         <label for="name">Name</label>
         <input
-          type="text"
           id="name"
-          placeholder="Enter a name"
+          type="text"
           v-model="item.name"
+          placeholder="Enter a name"
         />
       </div>
 
@@ -17,8 +17,9 @@
         <label for="note">Note(optional)</label>
         <textarea
           id="note"
-          placeholder="Enter a quote"
+          maxlength="300"
           v-model="item.note"
+          placeholder="Enter a quote"
         ></textarea>
       </div>
 
@@ -56,6 +57,8 @@
 <script lang="ts">
 import API from "@/API";
 import Item from "@/models/Item.interface";
+import Toast from "@/models/Toast.interface";
+
 import { defineComponent } from "vue";
 
 export default defineComponent({
@@ -67,9 +70,22 @@ export default defineComponent({
   },
   methods: {
     async save() {
-      await API.saveItem(this.item);
-      this.$store.dispatch("getItems");
-      this.closeTab();
+      const toastConfig = {} as Toast;
+
+      try {
+        await API.saveItem(this.item);
+        this.$store.dispatch("getItems");
+        this.closeTab();
+
+        toastConfig.error = false;
+        toastConfig.message = "Item added";
+      } catch (error) {
+        toastConfig.error = true;
+        toastConfig.message = error.message;
+      } finally {
+        this.$store.commit("setToastConfig", toastConfig);
+        this.$store.commit("setShowToast", true);
+      }
     },
     closeTab() {
       this.$emit("change-aside-and-close");
