@@ -8,6 +8,7 @@
         currentTab = $event;
         showAside = true;
       "
+      @show-toast="toggleToast($event)"
     />
 
     <component
@@ -20,28 +21,50 @@
       "
     ></component>
   </transition>
+
+  <transition name="slide">
+    <toast :config="toastConfig" v-show="showToast" @close="closeToast" />
+  </transition>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 
 import Nav from "./components/Nav.vue";
+import Toast from "@/components/Toast.vue";
 import AddItem from "./components/AddItem.vue";
 import ActiveList from "./components/ActiveList.vue";
 import ItemReview from "./components/ItemReview.vue";
 
+import ToastType from "./models/Toast.interface";
+
 export default defineComponent({
   name: "App",
-  components: { Nav, AddItem, ActiveList, ItemReview },
+  components: { Nav, Toast, AddItem, ActiveList, ItemReview },
   data() {
     return {
+      timeout: 0,
       showAside: false,
+      showToast: false,
       currentTab: "ActiveList",
+      toastConfig: {} as ToastType,
     };
   },
   methods: {
     toggleList() {
       this.showAside = !this.showAside;
+    },
+    closeToast() {
+      this.showToast = false;
+      clearTimeout(this.timeout);
+    },
+    toggleToast(toast: ToastType) {
+      this.showToast = true;
+      this.toastConfig = toast;
+
+      this.timeout = setTimeout(() => {
+        this.showToast = false;
+      }, 3000);
     },
   },
   async beforeMount() {
