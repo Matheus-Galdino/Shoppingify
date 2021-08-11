@@ -23,7 +23,12 @@
   </transition>
 
   <transition name="slide">
-    <toast :config="toastConfig" v-show="showToast" @close="closeToast" />
+    <toast
+      v-show="showToast"
+      @close="closeToast"
+      :config="toastConfig"
+      :percentage="percentage"
+    />
   </transition>
 </template>
 
@@ -42,6 +47,7 @@ export default defineComponent({
   data() {
     return {
       timeout: 0,
+      timeLeft: 0,
       showAside: false,
       currentTab: "ActiveList",
     };
@@ -55,6 +61,14 @@ export default defineComponent({
       clearTimeout(this.timeout);
     },
     toggleToast() {
+      this.timeLeft = 2000;
+
+      const interval = setInterval(() => {
+        this.timeLeft -= 12;
+
+        if (this.timeLeft == 0 || !this.showToast) clearInterval(interval);
+      }, 1);
+
       this.timeout = setTimeout(() => {
         this.$store.commit("setShowToast", false);
       }, 2000);
@@ -66,6 +80,11 @@ export default defineComponent({
     },
     toastConfig() {
       return this.$store.state.toastConfig;
+    },
+    percentage(): number {
+      const value = Math.ceil(100 - (this.timeLeft * 100) / 2000);
+      console.log(value);
+      return value;
     },
   },
   watch: {

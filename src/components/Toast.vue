@@ -1,5 +1,9 @@
 <template>
-  <div class="toast-notification" :class="toastType">
+  <div
+    :class="toastType"
+    class="toast-notification"
+    :style="`--width: ${percentage}`"
+  >
     <div class="icon-container">
       <span class="material-icons">
         {{ config.error ? "error_outline" : "done" }}
@@ -26,6 +30,9 @@ export default defineComponent({
           message: "This is a toast notification",
         };
       },
+    },
+    percentage: {
+      type: Number,
     },
   },
   computed: {
@@ -54,6 +61,18 @@ export default defineComponent({
   position: fixed;
   right: 10px;
   bottom: 15px;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    height: 3px;
+    background: #c4c4c4;
+    width: calc(var(--width) * 1%);
+
+    position: absolute;
+    left: 0;
+    bottom: 0;
+  }
 
   &__text {
     font-size: 1.5rem;
