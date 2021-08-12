@@ -28,16 +28,29 @@
 </template>
 
 <script lang="ts">
-import API from "@/API";
 import { defineComponent } from "vue";
+
+import API from "@/API";
+import Toast from "@/models/Toast.interface";
 
 export default defineComponent({
   name: "ItemReview",
+  data() {
+    return {
+      toastConfig: {} as Toast,
+    };
+  },
   methods: {
     async deleteItem() {
       await API.deleteItem(this.item);
       await this.$store.dispatch("getItems");
       this.$emit("change-aside-and-close");
+
+      this.toastConfig.error = false;
+      this.toastConfig.message = "Item deleted";
+      this.$store.commit("setToastConfig", this.toastConfig);
+      this.$store.commit("setShowToast", true);
+
       this.$store.commit("setDetailItem", null);
     },
     async addToList() {
@@ -48,8 +61,19 @@ export default defineComponent({
         return;
       }
 
-      await API.addItemToList(listId, this.item.id);
-      await this.$store.dispatch("getActiveListItems");
+      try {
+        await API.addItemToList(listId, this.item.id);
+        await this.$store.dispatch("getActiveListItems");
+
+        this.toastConfig.error = false;
+        this.toastConfig.message = "Item added to list";
+      } catch (error) {
+        this.toastConfig.error = true;
+        this.toastConfig.message = error.message;
+      } finally {
+        this.$store.commit("setToastConfig", this.toastConfig);
+        this.$store.commit("setShowToast", true);
+      }
     },
   },
   computed: {
