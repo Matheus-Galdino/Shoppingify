@@ -44,9 +44,10 @@ export default {
       method: "PUT",
     });
 
-    const json = await result.json();
-
-    if (!result.ok) throw new Error(json.message);
+    if (!result.ok) {
+      const json = await result.json();
+      throw new Error(json.message);
+    }
   },
   async removeItemFromList(listId: number, itemId: number) {
     const result = await fetch(`https://localhost:44333/api/shoppinglist/${listId}/item/${itemId}`, {

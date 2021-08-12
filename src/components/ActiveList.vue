@@ -55,9 +55,10 @@
 </template>
 
 <script lang="ts">
-import API from "@/API";
 import { defineComponent } from "vue";
 
+import API from "@/API";
+import Toast from "@/models/Toast.interface";
 import EditQuantity from "./EditQuantity.vue";
 import ShoppingListItem from "./ShoppingListItem.vue";
 
@@ -67,19 +68,36 @@ export default defineComponent({
   data() {
     return {
       isEditListName: false,
+      toastConfig: {} as Toast,
     };
   },
   methods: {
     async updateQuantity(itemId: number, quantity: number) {
       const listId = this.activeList.id;
 
-      await API.changeListItemQuantity(listId, itemId, quantity);
+      try {
+        await API.changeListItemQuantity(listId, itemId, quantity);
+
+        this.toastConfig.error = false;
+        this.toastConfig.message = "Quantity updated";
+      } catch (error) {
+        this.toastConfig.error = true;
+        this.toastConfig.message = error.message;
+      } finally {
+        this.$store.commit("setToastConfig", this.toastConfig);
+        this.$store.commit("setShowToast", true);
+      }
     },
     async removeItem(itemId: number) {
       const listId = this.activeList.id;
 
       await API.removeItemFromList(listId, itemId);
       this.$store.dispatch("getActiveListItems");
+
+      this.toastConfig.error = false;
+      this.toastConfig.message = "Item removed";
+      this.$store.commit("setToastConfig", this.toastConfig);
+      this.$store.commit("setShowToast", true);
     },
   },
   computed: {
