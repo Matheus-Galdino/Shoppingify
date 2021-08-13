@@ -8,6 +8,7 @@
     <h1 class="list-details__name">{{ list.name }}</h1>
     <p class="list-details__date">
       <span class="material-icons"> event_note </span>
+      {{ formatedDate }}
     </p>
 
     <ul class="list-groups">
@@ -55,6 +56,17 @@ export default defineComponent({
     list(): ShoppingList {
       return this.$store.getters.getList(Number(this.id));
     },
+    formatedDate(): string {
+      const date = new Date(this.list.date);
+      const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+      const weekDay = weekDays[date.getDay()];
+
+      const day = date.getDate();
+      const month = date.getMonth() + 1;
+      const year = date.getFullYear();
+
+      return `${weekDay} ${day}.${month}.${year}`;
+    },
   },
   async beforeMount() {
     await this.getListItems(Number(this.id));
@@ -76,17 +88,18 @@ export default defineComponent({
     color: #34333a;
     font-size: 2.6rem;
     line-height: 3.2rem;
-    margin-bottom: 3rem;
+    margin-bottom: 1rem;
   }
 
   &__date {
-    display: none;
+    display: flex;
     column-gap: 1rem;
     align-items: center;
 
     color: #c1c1c4;
     font-size: 1.2rem;
     line-height: 1.5rem;
+    margin-bottom: 3rem;
   }
 }
 
