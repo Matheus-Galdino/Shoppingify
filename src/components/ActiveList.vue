@@ -9,48 +9,57 @@
       <button @click="$emit('change-aside', 'AddItem')">Add item</button>
     </div>
 
-    <div class="list__body">
-      <h2 class="list-title">
-        {{ activeList.name }}
-        <span class="material-icons" @click="isEditListName = !isEditListName">
-          edit
-        </span>
-      </h2>
+    <template v-if="activeList.items.length >= 1">
+      <div class="list__body">
+        <h2 class="list-title">
+          {{ activeList.name }}
+          <span
+            class="material-icons"
+            @click="isEditListName = !isEditListName"
+          >
+            edit
+          </span>
+        </h2>
 
-      <ul class="list-groups">
-        <li
-          class="group"
-          v-for="(group, index) in activeList.items"
-          :key="index"
-        >
-          <h4 class="group-title">{{ group.key }}</h4>
+        <ul class="list-groups">
+          <li
+            class="group"
+            v-for="(group, index) in activeList.items"
+            :key="index"
+          >
+            <h4 class="group-title">{{ group.key }}</h4>
 
-          <ul class="group-items">
-            <Shopping-list-item
-              :key="item.id"
-              :item="item.item"
-              class="group-item"
-              v-for="item in group.items"
-            >
-              <Edit-quantity
-                :itemQuantity="item.quantity"
-                @delete="removeItem(item.item.id)"
-                @confirm="updateQuantity(item.item.id, $event)"
-              />
-            </Shopping-list-item>
-          </ul>
-        </li>
-      </ul>
+            <ul class="group-items">
+              <Shopping-list-item
+                :key="item.id"
+                :item="item.item"
+                class="group-item"
+                v-for="item in group.items"
+              >
+                <Edit-quantity
+                  :itemQuantity="item.quantity"
+                  @delete="removeItem(item.item.id)"
+                  @confirm="updateQuantity(item.item.id, $event)"
+                />
+              </Shopping-list-item>
+            </ul>
+          </li>
+        </ul>
+      </div>
+
+      <transition name="slide-up">
+        <footer class="list__footer" v-show="isEditListName">
+          <form class="list__footer-form">
+            <input type="text" placeholder="Enter a name" />
+            <button>Save</button>
+          </form>
+        </footer>
+      </transition>
+    </template>
+
+    <div class="empty-list" v-else>
+      <h2>No items</h2>
     </div>
-
-    <transition name="slide-up">
-      <footer class="list__footer" v-show="isEditListName">
-        <form class="list__footer-form">
-          <input type="text" placeholder="Enter a name" />
-          <button>Save</button>
-        </form>
-      </footer>
-    </transition>
   </aside>
 </template>
 
@@ -217,6 +226,20 @@ export default defineComponent({
     font-weight: bold;
     font-size: 1.6rem;
     background: #f9a109;
+  }
+}
+
+.empty-list {
+  display: grid;
+  place-content: center;
+  background: url("../assets/shopping.svg") no-repeat;
+  background-position: center bottom;
+
+  h2 {
+    font-size: 2rem;
+    font-weight: bold;
+
+    color: #34333a;
   }
 }
 
