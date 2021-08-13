@@ -80,6 +80,22 @@ export default {
       throw new Error(json.error);
     }
   },
+  async SaveList(list: ShoppingList) {
+    const body = JSON.stringify(list);
+
+    const result = await fetch("https://localhost:44333/api/shoppinglist", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body,
+    });
+
+    if (!result.ok) {
+      const json = await result.json();
+      throw new Error(json.error);
+    }
+  },
   async deleteItem(item: Item) {
     const body = JSON.stringify(item);
 
@@ -98,13 +114,13 @@ export default {
 
     const json = await result.json();
 
-    return json as Stat[]
+    return json as Stat[];
   },
   async getTopCategories() {
     const result = await fetch("https://localhost:44333/api/stats/top/categories");
 
     const json = await result.json();
 
-    return json as Stat[]
-  }
+    return json as Stat[];
+  },
 };
