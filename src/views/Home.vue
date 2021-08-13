@@ -1,5 +1,9 @@
 <template>
   <div class="home">
+    <h1>
+      <span>Shoppingify</span>
+      allows you take your shopping list wherever you go
+    </h1>
     <ItemGroup
       v-for="(group, index) in itemsGroups"
       :key="index"
@@ -28,5 +32,16 @@ export default defineComponent({
 <style lang="scss" scoped>
 .home {
   padding: 3rem 2rem;
+
+  h1 {
+    max-width: 31ch;
+    font-size: 2rem;
+    margin-bottom: 4rem;
+
+    span {
+      color: #f9a109;
+      font-weight: bold;
+    }
+  }
 }
 </style>
