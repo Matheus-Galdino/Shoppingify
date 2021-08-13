@@ -3,6 +3,7 @@ import Group from "./models/Group.interface";
 import Category from "./models/Category.interface";
 import ShoppingList from "./models/ShoppingList.interface";
 import ShoppingListItem from "./models/ShoppingListItem.interface";
+import Stat from "./models/Stat.interface";
 
 export default {
   async getItems() {
@@ -92,4 +93,18 @@ export default {
 
     if (!result.ok) throw new Error("Something went wrong");
   },
+  async getTopItems() {
+    const result = await fetch("https://localhost:44333/api/stats/top/items");
+
+    const json = await result.json();
+
+    return json as Stat[]
+  },
+  async getTopCategories() {
+    const result = await fetch("https://localhost:44333/api/stats/top/categories");
+
+    const json = await result.json();
+
+    return json as Stat[]
+  }
 };

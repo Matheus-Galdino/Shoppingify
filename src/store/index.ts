@@ -8,6 +8,7 @@ import { createStore } from "vuex";
 import API from "../API";
 import ShoppingList from "@/models/ShoppingList.interface";
 import ShoppingListItem from "@/models/ShoppingListItem.interface";
+import Stat from "@/models/Stat.interface";
 
 export default createStore({
   state: {
@@ -18,6 +19,8 @@ export default createStore({
     categories: [] as Category[],
     lists: [] as ShoppingList[],
     activeList: {} as ShoppingList,
+    topItems: [] as Stat[],
+    topCategories: [] as Stat[],
   },
   getters: {
     activeListCount(state) {
@@ -52,6 +55,12 @@ export default createStore({
 
       state.activeList.items = items;
     },
+    setTopItems(state, payload: Stat[]) {
+      state.topItems = payload;
+    },
+    setTopCategories(state, payload: Stat[]) {
+      state.topCategories = payload;
+    },
   },
   actions: {
     async getItems({ commit }) {
@@ -69,6 +78,14 @@ export default createStore({
     async getActiveListItems({ commit, state }) {
       const items = await API.getListItems(state.activeList.id);
       commit("setActiveListItems", items);
+    },
+    async getTopItems({ commit }) {
+      const topItems = await API.getTopItems();
+      commit("setTopItems", topItems);
+    },
+    async getTopCategories({ commit }) {
+      const topCategories = await API.getTopCategories();
+      commit("setTopCategories", topCategories);
     },
   },
 });

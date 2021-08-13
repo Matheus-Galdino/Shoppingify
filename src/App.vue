@@ -96,6 +96,8 @@ export default defineComponent({
     await this.$store.dispatch("getItems");
     await this.$store.dispatch("getLists");
     await this.$store.dispatch("getCategories");
+    await this.$store.dispatch("getTopItems");
+    await this.$store.dispatch("getTopCategories");
 
     this.$store.commit("setActiveList");
 
