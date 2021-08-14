@@ -30,12 +30,17 @@
       :percentage="percentage"
     />
   </transition>
+
+  <Mask v-show="loading">
+    <div class="spinner"></div>
+  </Mask>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 
 import Nav from "./components/Nav.vue";
+import Mask from "./components/Mask.vue";
 import Toast from "@/components/Toast.vue";
 import AddItem from "./components/AddItem.vue";
 import ActiveList from "./components/ActiveList.vue";
@@ -43,7 +48,7 @@ import ItemReview from "./components/ItemReview.vue";
 
 export default defineComponent({
   name: "App",
-  components: { Nav, Toast, AddItem, ActiveList, ItemReview },
+  components: { Nav, Mask, Toast, AddItem, ActiveList, ItemReview },
   data() {
     return {
       timeout: 0,
@@ -75,6 +80,9 @@ export default defineComponent({
     },
   },
   computed: {
+    loading() {
+      return this.$store.state.loading;
+    },
     showToast() {
       return this.$store.state.showToast;
     },
@@ -93,6 +101,8 @@ export default defineComponent({
     },
   },
   async beforeMount() {
+    this.$store.commit("setLoading", true);
+
     await this.$store.dispatch("getItems");
     await this.$store.dispatch("getLists");
     await this.$store.dispatch("getCategories");
@@ -104,6 +114,8 @@ export default defineComponent({
     if (!this.$store.state.activeList?.id) return;
 
     await this.$store.dispatch("getActiveListItems");
+
+    this.$store.commit("setLoading", false);
   },
 });
 </script>
@@ -121,6 +133,15 @@ export default defineComponent({
   grid-template-columns: auto 1fr;
 }
 
+.spinner {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 3px solid rgba(0, 0, 0, 0.4);
+  border-left: 5px solid #f9a109;
+  animation: spin 1s linear infinite;
+}
+
 .slide-enter-active {
   animation: slide-in 0.2s;
 }
@@ -135,6 +156,12 @@ export default defineComponent({
   }
   to {
     transform: translateX(0);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
 }
 </style>

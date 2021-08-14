@@ -11,6 +11,7 @@ import Stat from "./models/Stat.interface";
 declare module "@vue/runtime-core" {
   // declare your own store states
   interface State {
+    loading: Boolean;
     showToast: Boolean;
     toastConfig: Toast;
     detailItem: Item;

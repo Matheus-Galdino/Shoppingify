@@ -12,6 +12,7 @@ import Stat from "@/models/Stat.interface";
 
 export default createStore({
   state: {
+    loading: false,
     showToast: false,
     toastConfig: {} as Toast,
     detailItem: {} as Item,
@@ -29,6 +30,9 @@ export default createStore({
     getList: (state) => (listId: number) => state.lists.find((x) => x.id === listId),
   },
   mutations: {
+    setLoading(state, payload: boolean) {
+      state.loading = payload;
+    },
     setShowToast(state, payload: boolean) {
       state.showToast = payload;
     },
