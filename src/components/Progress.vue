@@ -32,10 +32,10 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .progress {
-  height: 5px;
+  height: 10px;
   width: 100%;
   overflow: hidden;
-  border-radius: 4px;
+  border-radius: 5px;
   background: #e0e0e0;
 }
 
