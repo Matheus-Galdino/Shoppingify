@@ -91,6 +91,21 @@ export default {
       throw new Error(json.error);
     }
   },
+  async saveCategory(category: Category) {
+    const body = JSON.stringify(category);
+    const headers = { "Content-Type": "application/json" };
+
+    const result = await fetch("https://localhost:44333/api/category", {
+      method: "POST",
+      headers,
+      body,
+    });
+
+    if (!result.ok) {
+      const json = await result.json();
+      throw new Error(json.message);
+    }
+  },
   async SaveList(list: ShoppingList) {
     const body = JSON.stringify(list);
 
