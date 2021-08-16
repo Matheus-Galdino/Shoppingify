@@ -91,7 +91,6 @@ export default defineComponent({
     },
     percentage(): number {
       const value = Math.ceil(100 - (this.timeLeft * 100) / 2000);
-      console.log(value);
       return value;
     },
   },
