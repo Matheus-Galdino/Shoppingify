@@ -13,10 +13,7 @@
       <div class="list__body">
         <h2 class="list-title">
           {{ activeList.name }}
-          <span
-            class="material-icons"
-            @click="isEditListName = !isEditListName"
-          >
+          <span class="material-icons" @click="isEditing = !isEditing">
             edit
           </span>
         </h2>
@@ -48,11 +45,20 @@
       </div>
 
       <transition name="slide-up">
-        <footer class="list__footer" v-show="isEditListName">
+        <footer class="list__footer" v-if="isEditing && !isInStats">
           <form class="list__footer-form">
             <input type="text" placeholder="Enter a name" />
-            <button>Save</button>
+            <button class="button">Save</button>
           </form>
+        </footer>
+        <footer class="list__footer" v-else-if="isInStats">
+          <button class="button cancel" @click="changeListStatus(false)">
+            cancel
+          </button>
+
+          <button class="button complete" @click="changeListStatus(true)">
+            Complete
+          </button>
         </footer>
       </transition>
     </template>
@@ -70,13 +76,14 @@ import API from "@/API";
 import Toast from "@/models/Toast.interface";
 import EditQuantity from "./EditQuantity.vue";
 import ShoppingListItem from "./ShoppingListItem.vue";
+import ListStatus from "@/models/ListStatus.enum";
 
 export default defineComponent({
   name: "ActiveList",
   components: { EditQuantity, ShoppingListItem },
   data() {
     return {
-      isEditListName: false,
+      isEditing: false,
       toastConfig: {} as Toast,
     };
   },
@@ -108,10 +115,34 @@ export default defineComponent({
       this.$store.commit("setToastConfig", this.toastConfig);
       this.$store.commit("setShowToast", true);
     },
+    async changeListStatus(complete: string) {
+      const listId = this.$store.state.activeList.id;
+      const listStatus = complete ? ListStatus.Completed : ListStatus.Cancelled;
+
+      if (listStatus == ListStatus.Cancelled) {
+        const ask = confirm("Are you sure that you want to cancel this list?");
+
+        if (!ask) return;
+      }
+
+      await API.changeListStatus(listId, listStatus);
+
+      await this.$store.dispatch("getLists");
+
+      this.$store.commit("setActiveList");
+
+      if (!this.$store.state.activeList?.id) return;
+
+      await this.$store.dispatch("getActiveListItems");
+    },
   },
   computed: {
     activeList() {
       return this.$store.state.activeList;
+    },
+    isInStats() {
+      const routeName = this.$route.name?.toString();
+      return routeName === "Stats";
     },
   },
 });
@@ -201,31 +232,51 @@ export default defineComponent({
 }
 
 .list__footer {
+  display: flex;
+  justify-content: center;
+
   padding: 2rem;
   background: #fff;
 }
 
 .list__footer-form {
+  flex: 1;
   display: flex;
   overflow: hidden;
   border-radius: 12px;
   border: 3px solid #f9a109;
 
-  * {
-    display: inline-block;
-    padding: 2rem;
-  }
-
   input {
     flex: 1;
     border: none;
+    padding: 2rem;
+    display: inline-block;
   }
 
   button {
-    color: #fff;
-    font-weight: bold;
-    font-size: 1.6rem;
     background: #f9a109;
+  }
+}
+
+.button {
+  color: #fff;
+  padding: 2rem;
+  font-weight: bold;
+  font-size: 1.6rem;
+  display: inline-block;
+
+  &.complete,
+  &.cancel {
+    border-radius: 12px;
+  }
+
+  &.complete {
+    background: #56ccf2;
+  }
+
+  &.cancel {
+    color: #000;
+    background: 0;
   }
 }
 

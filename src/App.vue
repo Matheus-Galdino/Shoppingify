@@ -111,7 +111,10 @@ export default defineComponent({
 
     this.$store.commit("setActiveList");
 
-    if (!this.$store.state.activeList?.id) return;
+    if (!this.$store.state.activeList?.id) {
+      this.$store.commit("setLoading", false);
+      return;
+    }
 
     await this.$store.dispatch("getActiveListItems");
 
@@ -137,7 +140,7 @@ export default defineComponent({
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  border: 3px solid rgba(0, 0, 0, 0.4);
+  border: 3px solid #fff;
   border-left: 5px solid #f9a109;
   animation: spin 1s linear infinite;
 }
