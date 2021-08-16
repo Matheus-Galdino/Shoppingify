@@ -27,14 +27,13 @@ export default defineComponent({
     async addToList() {
       const listId = this.$store.state.activeList?.id;
 
-      if (!listId) {
-        alert("Cannot add item without an active list");
-        return;
-      }
-
       const toastConfig = {} as Toast;
 
       try {
+        if (!listId) {
+          throw new Error("Cannot add item without an active list");
+        }
+
         await API.addItemToList(listId, this.item.id);
         await this.$store.dispatch("getActiveListItems");
 

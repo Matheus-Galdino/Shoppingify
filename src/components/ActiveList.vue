@@ -9,7 +9,7 @@
       <button @click="$emit('change-aside', 'AddItem')">Add item</button>
     </div>
 
-    <template v-if="activeList.items.length >= 1">
+    <template v-if="activeList?.items?.length >= 1">
       <div class="list__body">
         <h2 class="list-title">
           {{ activeList.name }}
@@ -21,7 +21,7 @@
         <ul class="list-groups">
           <li
             class="group"
-            v-for="(group, index) in activeList.items"
+            v-for="(group, index) in activeList?.items"
             :key="index"
           >
             <h4 class="group-title">{{ group.key }}</h4>
