@@ -4,6 +4,7 @@ import Category from "./models/Category.interface";
 import ShoppingList from "./models/ShoppingList.interface";
 import ShoppingListItem from "./models/ShoppingListItem.interface";
 import Stat from "./models/Stat.interface";
+import ListStatus from "./models/ListStatus.enum";
 
 export default {
   async getItems() {
@@ -42,6 +43,16 @@ export default {
   },
   async changeListItemQuantity(listId: number, itemId: number, quantity: number) {
     const result = await fetch(`https://localhost:44333/api/shoppinglist/${listId}/item/${itemId}?quantity=${quantity}`, {
+      method: "PUT",
+    });
+
+    if (!result.ok) {
+      const json = await result.json();
+      throw new Error(json.message);
+    }
+  },
+  async changeListStatus(listId: number, status: ListStatus) {
+    const result = await fetch(`https://localhost:44333/api/shoppinglist/${listId}/status?status=${status}`, {
       method: "PUT",
     });
 
