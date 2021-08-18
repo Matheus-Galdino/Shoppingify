@@ -135,6 +135,13 @@ export default {
 
     if (!result.ok) throw new Error("Something went wrong");
   },
+  async deleteList(listId: number) {
+    const result = await fetch(`https://localhost:44333/api/shoppinglist/${listId}`, {
+      method: "DELETE",
+    });
+
+    if (!result.ok) throw new Error("Something went wrong");
+  },
   async getTopItems() {
     const result = await fetch("https://localhost:44333/api/stats/top/items");
 
