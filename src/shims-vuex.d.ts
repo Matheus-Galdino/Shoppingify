@@ -21,6 +21,7 @@ declare module "@vue/runtime-core" {
     activeList: ShoppingList;
     topItems: Stat[];
     topCategories: Stat[];
+    monthlySummary: Stat[];
   }
 
   // provide typings for `this.$store`

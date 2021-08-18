@@ -22,6 +22,7 @@ export default createStore({
     activeList: {} as ShoppingList,
     topItems: [] as Stat[],
     topCategories: [] as Stat[],
+    monthlySummary: [] as Stat[],
   },
   getters: {
     activeListCount(state) {
@@ -65,6 +66,9 @@ export default createStore({
     setTopCategories(state, payload: Stat[]) {
       state.topCategories = payload;
     },
+    setMonthlySummary(state, payload: Stat[]) {
+      state.monthlySummary = payload;
+    },
   },
   actions: {
     async getItems({ commit }) {
@@ -90,6 +94,10 @@ export default createStore({
     async getTopCategories({ commit }) {
       const topCategories = await API.getTopCategories();
       commit("setTopCategories", topCategories);
+    },
+    async getMonthlySummary({ commit }) {
+      const monthlySummary = await API.getMonthlySummary();
+      commit("setMonthlySummary", monthlySummary);
     },
   },
 });
