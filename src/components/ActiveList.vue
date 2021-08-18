@@ -151,7 +151,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .list {
   height: 100vh;
-  max-width: 500px;
+  max-width: 400px;
   background: #fff0de;
 
   display: grid;
