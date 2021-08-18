@@ -156,4 +156,11 @@ export default {
 
     return json as Stat[];
   },
+  async getMonthlySummary() {
+    const result = await fetch("https://localhost:44333/api/stats/monthly");
+
+    const json = await result.json();
+
+    return json as Stat[];
+  }
 };
