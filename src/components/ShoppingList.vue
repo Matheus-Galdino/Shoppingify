@@ -15,9 +15,21 @@
       {{ listStatusString }}
     </span>
 
+    <button class="remove" @click="askConfirmation = true">
+      <span class="material-icons"> delete_outline </span>
+    </button>
+
     <router-link :to="`/list/${list.id}`">
       <span class="material-icons"> navigate_next </span>
     </router-link>
+
+    <Mask v-show="askConfirmation">
+      <Confirm-popup
+        @confirm="remove"
+        @cancel="askConfirmation = false"
+        text="Are you sure that you want to cancel this list?"
+      />
+    </Mask>
   </li>
 </template>
 
@@ -25,19 +37,27 @@
 import { defineComponent, PropType } from "vue";
 
 import API from "@/API";
+import Toast from "@/models/Toast.interface";
 import ListStatus from "@/models/ListStatus.enum";
-
-import CustomRadio from "./CustomRadio.vue";
 import ShoppingList from "@/models/ShoppingList.interface";
+
+import Mask from "./Mask.vue";
+import CustomRadio from "./CustomRadio.vue";
+import ConfirmPopup from "./ConfirmPopup.vue";
 
 export default defineComponent({
   name: "ShoppingList",
-  components: { CustomRadio },
+  components: { Mask, CustomRadio, ConfirmPopup },
   props: {
     list: {
       type: Object as PropType<ShoppingList>,
       required: true,
     },
+  },
+  data() {
+    return {
+      askConfirmation: false,
+    };
   },
   computed: {
     listDate(): string {
@@ -59,6 +79,23 @@ export default defineComponent({
       this.$store.commit("setActiveList");
       await this.$store.dispatch("getActiveListItems");
     },
+    async remove() {
+      const toastConfig = {} as Toast;
+
+      try {
+        await API.deleteList(this.list.id);
+        await this.$store.dispatch("getLists");
+
+        toastConfig.error = false;
+        toastConfig.message = "List deleted";
+      } catch (error) {
+        toastConfig.error = true;
+        toastConfig.message = error.message;
+      } finally {
+        this.$store.commit("setToastConfig", toastConfig);
+        this.$store.commit("setShowToast", true);
+      }
+    },
   },
 });
 </script>
@@ -67,7 +104,7 @@ export default defineComponent({
 .shopping-list {
   display: flex;
   padding: 1rem;
-  column-gap: 1.5rem;
+  column-gap: 1rem;
   align-items: center;
 
   background: #fff;
@@ -116,5 +153,10 @@ export default defineComponent({
 
 a {
   color: #f9a109;
+}
+
+.remove {
+  background: 0;
+  color: #eb5757;
 }
 </style>
