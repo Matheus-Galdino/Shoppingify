@@ -23,7 +23,10 @@
   </template>
 
   <template v-else>
-    <router-view @show-toast="toggleToast($event)" />
+    <router-view
+      @show-toast="toggleToast($event)"
+      @change-aside="currentTab = $event"
+    />
 
     <component
       :is="currentTab"

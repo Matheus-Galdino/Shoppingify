@@ -88,6 +88,7 @@ export default defineComponent({
 .item-review {
   padding: 3rem;
   max-width: 500px;
+  background: #fff;
 
   display: grid;
   grid-template-rows: auto 1fr auto;
