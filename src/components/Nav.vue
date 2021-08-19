@@ -63,6 +63,10 @@ nav {
   height: 100vh;
   padding: 2rem 0;
   background: #fff;
+
+  @media (min-width: 800px) {
+    width: 100px;
+  }
 }
 
 .material-icons {

@@ -1,7 +1,7 @@
 <template>
   <Nav @display-aside="toggleList" />
 
-  <transition name="slide" mode="out-in">
+  <template v-if="mobileView">
     <router-view
       v-if="!showAside"
       @change-aside="
@@ -20,10 +20,20 @@
         currentTab = 'ActiveList';
       "
     ></component>
-  </transition>
+  </template>
+
+  <template v-else>
+    <router-view @show-toast="toggleToast($event)" />
+
+    <component
+      :is="currentTab"
+      @change-aside="currentTab = $event"
+      @change-aside-and-close="currentTab = 'ActiveList'"
+    ></component>
+  </template>
 
   <transition name="slide">
-    <toast
+    <Toast
       v-show="showToast"
       @close="closeToast"
       :config="toastConfig"
@@ -53,6 +63,7 @@ export default defineComponent({
     return {
       timeout: 0,
       timeLeft: 0,
+      windowWidth: 0,
       showAside: false,
       currentTab: "ActiveList",
     };
@@ -93,6 +104,9 @@ export default defineComponent({
       const value = Math.ceil(100 - (this.timeLeft * 100) / 2000);
       return value;
     },
+    mobileView(): boolean {
+      return this.windowWidth < 800;
+    },
   },
   watch: {
     showToast(newValue) {
@@ -120,6 +134,13 @@ export default defineComponent({
 
     this.$store.commit("setLoading", false);
   },
+  mounted() {
+    window.addEventListener("resize", () => {
+      this.windowWidth = window.innerWidth;
+    });
+
+    this.windowWidth = window.innerWidth;
+  },
 });
 </script>
 
@@ -134,6 +155,10 @@ export default defineComponent({
 
   display: grid;
   grid-template-columns: auto 1fr;
+
+  @media (min-width: 800px) {
+    grid-template-columns: auto 1fr 400px;
+  }
 }
 
 .spinner {
