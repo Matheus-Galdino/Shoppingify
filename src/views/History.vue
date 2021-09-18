@@ -1,5 +1,5 @@
 <template>
-  <div class="history">
+  <div class="history page">
     <div class="history__header">
       <h1>Shopping history</h1>
       <button class="add" @click="showForm = true">
@@ -41,7 +41,6 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .history {
-  padding: 3rem 2rem;
 
   &__header {
     display: flex;

@@ -1,8 +1,8 @@
 <template>
-  <div class="home">
+  <div class="home page">
     <h1>
-      <span>Shoppingify</span>
-      allows you take your shopping list wherever you go
+      <span>Shoppingify</span> allows you take your <br />
+      shopping list wherever you go
     </h1>
     <ItemGroup
       v-for="(group, index) in itemsGroups"
@@ -31,12 +31,14 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .home {
-  padding: 3rem 2rem;
-
   h1 {
-    max-width: 31ch;
-    font-size: 2rem;
-    margin-bottom: 4rem;
+    display: none;
+
+    @media (min-width: 1200px) {
+      display: block;
+      font-size: 26px;
+      margin-bottom: 50px;
+    }
 
     span {
       color: #f9a109;

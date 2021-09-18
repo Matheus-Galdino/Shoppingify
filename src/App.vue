@@ -149,6 +149,8 @@ export default defineComponent({
 
 <style lang="scss">
 @import "./scss/reset.scss";
+@import "./scss/globals.scss";
+@import "./scss/animations.scss";
 
 #app {
   -webkit-font-smoothing: antialiased;
@@ -179,20 +181,5 @@ export default defineComponent({
 
 .slide-leave-active {
   animation: slide-in 0.2s reverse;
-}
-
-@keyframes slide-in {
-  from {
-    transform: translateX(100%);
-  }
-  to {
-    transform: translateX(0);
-  }
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
 }
 </style>
