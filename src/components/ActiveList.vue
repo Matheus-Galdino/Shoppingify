@@ -301,13 +301,4 @@ export default defineComponent({
 .slide-up-leave-active {
   animation: slide-up 0.1s ease-in reverse;
 }
-
-@keyframes slide-up {
-  from {
-    transform: translateY(100px);
-  }
-  to {
-    transform: translateY(0);
-  }
-}
 </style>

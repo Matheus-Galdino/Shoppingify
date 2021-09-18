@@ -1,5 +1,5 @@
 <template>
-  <div class="list-details">
+  <div class="list-details page">
     <router-link class="back-button" to="/history">
       <span class="material-icons"> arrow_right_alt </span>
       back
@@ -81,8 +81,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.list-details {
-  padding: 3rem 2rem;
+.list-details {  
 
   &__name {
     color: #34333a;
