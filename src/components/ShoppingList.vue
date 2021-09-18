@@ -8,7 +8,7 @@
     <p class="shopping-list__name">{{ list.name }}</p>
     <p class="shopping-list__date">
       <span class="material-icons"> event_note </span>
-      {{ list.date }}
+      {{ formatedDate }}
     </p>
 
     <span :class="['shopping-list__status', listStatusString]">
@@ -60,8 +60,16 @@ export default defineComponent({
     };
   },
   computed: {
-    listDate(): string {
-      return this.list.date.toDateString();
+    formatedDate(): string {
+      const date = new Date(this.list.date);
+      const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+      const weekDay = weekDays[date.getDay()];
+
+      const day = date.getDate();
+      const month = date.getMonth() + 1;
+      const year = date.getFullYear();
+
+      return `${weekDay} ${day}.${month}.${year}`;
     },
     listStatusString(): string {
       return ListStatus[this.list.status].replace("_", " ");
@@ -111,6 +119,10 @@ export default defineComponent({
   border-radius: 12px;
   box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.05);
 
+  @media (min-width: 1200px) {
+    column-gap: 2rem;
+  }
+
   &__name {
     font-size: 1.6rem;
     line-height: 2rem;
@@ -119,12 +131,16 @@ export default defineComponent({
 
   &__date {
     display: none;
-    column-gap: 1rem;
-    align-items: center;
 
-    color: #c1c1c4;
-    font-size: 1.2rem;
-    line-height: 1.5rem;
+    @media (min-width: 1200px) {
+      display: flex;
+      column-gap: 1rem;
+      align-items: center;
+
+      color: #c1c1c4;
+      font-size: 1.2rem;
+      line-height: 1.5rem;
+    }
   }
 
   &__status {
