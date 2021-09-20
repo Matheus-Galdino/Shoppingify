@@ -3,35 +3,29 @@
     <form>
       <legend>Add a new item</legend>
 
-      <div class="input-group">
-        <label for="name">Name</label>
-        <input
-          id="name"
-          type="text"
-          v-model="item.name"
-          placeholder="Enter a name"
-        />
-      </div>
+      <CustomInput
+        id="name"
+        label="Name"
+        v-model="item.name"
+        placeholder="Enter a name"
+      />
 
-      <div class="input-group">
-        <label for="note">Note(optional)</label>
-        <textarea
-          id="note"
-          maxlength="300"
-          v-model="item.note"
-          placeholder="Enter a quote"
-        ></textarea>
-      </div>
+      <CustomInput
+        id="note"
+        :maxLength="300"
+        :isTextarea="true"
+        v-model="item.note"
+        label="Note (optional)"
+        placeholder="Enter a quote"
+      />
 
-      <div class="input-group">
-        <label for="image">Image(optional)</label>
-        <input
-          type="url"
-          id="image"
-          placeholder="Enter a url"
-          v-model="item.imageUrl"
-        />
-      </div>
+      <CustomInput
+        id="image"
+        type="url"
+        label="Image(optional)"
+        v-model="item.imageUrl"
+        placeholder="Enter a url"
+      />
 
       <div class="input-group">
         <label for="category">Category</label>
@@ -71,11 +65,12 @@ import Category from "@/models/Category.interface";
 import { defineComponent } from "vue";
 
 import Mask from "./Mask.vue";
+import CustomInput from "./CustomInput.vue";
 import AddCategoryForm from "./AddCategoryForm.vue";
 
 export default defineComponent({
   name: "AddItem",
-  components: { Mask, AddCategoryForm },
+  components: { Mask, CustomInput, AddCategoryForm },
   data() {
     return {
       isAdding: false,
@@ -139,7 +134,7 @@ export default defineComponent({
     color: #f9a109;
   }
 
-  &:focus-within :is(input, textarea, select) {
+  &:focus-within select {
     border-color: #f9a109;
   }
 
@@ -163,9 +158,7 @@ label {
   margin-bottom: 6px;
 }
 
-input,
-select,
-textarea {
+select {
   display: inline-block;
   width: 100%;
 
