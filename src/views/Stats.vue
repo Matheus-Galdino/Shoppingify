@@ -32,7 +32,12 @@
 
     <section class="monthly-container">
       <h2>Monthly summary</h2>
-      <apexchart width="100%" :options="options" :series="series"></apexchart>
+      <apexchart
+        width="100%"
+        height="600"
+        :series="series"
+        :options="options"
+      ></apexchart>
     </section>
   </div>
 </template>
