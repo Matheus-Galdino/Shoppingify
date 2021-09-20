@@ -1,12 +1,10 @@
 <template>
   <form @submit.prevent="addCategory" class="add-category-form">
-    <label for="new-category">Name</label>
-    <input
-      type="text"
+    <CustomInput
+      label="Name"
       id="new-category"
-      v-model="category.name"
+      v-model.trim="category.name"
       placeholder="Category name"
-      required
     />
 
     <div class="add-category-form__footer">
@@ -25,8 +23,11 @@ import API from "@/API";
 import Toast from "@/models/Toast.interface";
 import Category from "@/models/Category.interface";
 
+import CustomInput from "./CustomInput.vue";
+
 export default defineComponent({
   name: "AddCategoryForm",
+  components: { CustomInput },
   data() {
     return {
       category: {} as Category,
@@ -37,7 +38,7 @@ export default defineComponent({
       const toastConfig = {} as Toast;
 
       try {
-        if (!this.category.name?.trim())
+        if (!this.category.name)
           throw new Error("Category name must not be empty");
 
         await API.saveCategory(this.category);
@@ -66,27 +67,6 @@ export default defineComponent({
   padding: 2rem;
   background: #fff;
   border-radius: 15px;
-
-  label {
-    display: block;
-    font-size: 1.6rem;
-    margin-bottom: 0.5rem;
-  }
-
-  input {
-    padding: 1rem;
-    margin-bottom: 1rem;
-    display: inline-block;
-
-    width: 100%;
-    font-size: 1.5rem;
-    border-radius: 10px;
-    border: 2px solid #bdbdbd;
-
-    &:focus {
-      border-color: #f9a109;
-    }
-  }
 
   &__footer {
     display: flex;

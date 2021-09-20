@@ -1,10 +1,14 @@
 <template>
   <form class="add-list-form" @submit.prevent="saveList">
-    <label for="name">Name:</label>
-    <input type="text" id="name" v-model="list.name" required />
+    <CustomInput id="name" label="Name:" v-model.trim="list.name" />
 
-    <label for="date">Date:</label>
-    <input type="date" id="date" v-model="list.date" :min="today" required />
+    <CustomInput
+      id="date"
+      label="Date:"
+      type="date"
+      :min="today"
+      v-model="list.date"
+    />
 
     <div class="add-list-form__footer">
       <button class="cancel" type="button" @click="$emit('close')">
@@ -18,12 +22,15 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
-import ShoppingList from "@/models/ShoppingList.interface";
 import API from "@/API";
 import Toast from "@/models/Toast.interface";
+import ShoppingList from "@/models/ShoppingList.interface";
+
+import CustomInput from "./CustomInput.vue";
 
 export default defineComponent({
   name: "AddListForm",
+  components: { CustomInput },
   data() {
     return {
       list: {} as ShoppingList,

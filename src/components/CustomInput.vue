@@ -14,6 +14,7 @@
     <template v-else>
       <input
         :id="id"
+        :min="min"
         :type="type"
         :value="modelValue"
         :maxlength="maxLength"
@@ -54,6 +55,9 @@ export default defineComponent({
     isTextarea: {
       type: Boolean,
       default: false,
+    },
+    min: {
+      type: Number,
     },
     maxLength: {
       type: Number,
