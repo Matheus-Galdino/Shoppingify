@@ -36,6 +36,7 @@
       <div class="input-group">
         <label for="category">Category</label>
         <select id="category" v-model.number="item.categoryId">
+          <option value="-1" disabled>Select a category...</option>
           <option
             v-for="category in categories"
             :value="category.id"
@@ -43,9 +44,10 @@
           >
             {{ category.name }}
           </option>
-
-          <option @click="isAdding = true" value="-1">Add category</option>
         </select>
+        <small @click="isAdding = true">
+          <strong>Add new category</strong>
+        </small>
       </div>
     </form>
 
@@ -92,7 +94,7 @@ export default defineComponent({
   data() {
     return {
       isAdding: false,
-      item: {} as Item,
+      item: { categoryId: -1 } as Item,
       category: {} as Category,
     };
   },
@@ -143,7 +145,7 @@ export default defineComponent({
     },
     closeForm() {
       this.isAdding = false;
-      this.item.categoryId = 0;
+      this.item.categoryId = -1;
     },
   },
   computed: {
@@ -179,6 +181,14 @@ export default defineComponent({
 
   &:not(:first-of-type) {
     margin-top: 2rem;
+  }
+
+  small {
+    display: block;
+    cursor: pointer;
+    color: #f9a109;
+    font-size: 1.4rem;
+    margin-top: 0.3rem;
   }
 }
 
