@@ -12,6 +12,7 @@ import Stat from "@/models/Stat.interface";
 
 export default createStore({
   state: {
+    userToken: "",
     loading: false,
     showToast: false,
     toastConfig: {} as Toast,
@@ -31,6 +32,9 @@ export default createStore({
     getList: (state) => (listId: number) => state.lists.find((x) => x.id === listId),
   },
   mutations: {
+    setToken(state, payload: string) {
+      state.userToken = payload;
+    },
     setLoading(state, payload: boolean) {
       state.loading = payload;
     },
