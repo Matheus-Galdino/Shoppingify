@@ -5,6 +5,7 @@ import ShoppingList from "./models/ShoppingList.interface";
 import ShoppingListItem from "./models/ShoppingListItem.interface";
 import Stat from "./models/Stat.interface";
 import ListStatus from "./models/ListStatus.enum";
+import User from "./models/User.interface";
 
 export default {
   async getItems() {
@@ -162,5 +163,39 @@ export default {
     const json = await result.json();
 
     return json as Stat[];
-  }
+  },
+  async Signup(user: User) {
+    const body = JSON.stringify(user);
+
+    const result = await fetch("https://localhost:44333/api/user/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body,
+    });
+
+    const json = await result.json();
+
+    if (!result.ok) throw new Error(json.error);
+
+    return json.token;
+  },
+  async Signin(user: User) {
+    const body = JSON.stringify(user);
+
+    const result = await fetch("https://localhost:44333/api/user/signin", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body,
+    });
+
+    const json = await result.json();
+
+    if (!result.ok) throw new Error(json.error);
+
+    return json.token;
+  },
 };
