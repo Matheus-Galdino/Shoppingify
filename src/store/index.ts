@@ -30,6 +30,7 @@ export default createStore({
       return state.activeList?.items?.length ?? 0;
     },
     getList: (state) => (listId: number) => state.lists.find((x) => x.id === listId),
+    isAuthed: (state) => state.userToken != "",
   },
   mutations: {
     setToken(state, payload: string) {
