@@ -52,7 +52,8 @@ export default defineComponent({
   methods: {
     async signIn() {
       const token = await API.Signin(this.user);
-      console.log(token);
+      this.$store.commit("setToken", token);
+      this.$router.push("/");
     },
   },
 });

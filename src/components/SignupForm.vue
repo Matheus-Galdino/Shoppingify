@@ -2,13 +2,18 @@
   <form @submit.prevent="signup">
     <h1 class="title">Create Account</h1>
 
-    <CustomInput id="name" label="Name" placeholder="Name" v-model="name" />
+    <CustomInput
+      id="name"
+      label="Name"
+      placeholder="Name"
+      v-model="user.name"
+    />
 
     <CustomInput
       id="email"
       type="email"
       label="Email"
-      v-model="email"
+      v-model="user.email"
       placeholder="email@example.com"
     />
 
@@ -16,7 +21,7 @@
       id="password"
       type="password"
       label="Password"
-      v-model="password"
+      v-model="user.password"
       placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
     />
 
@@ -38,6 +43,9 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
+import API from "@/API";
+import User from "@/models/User.interface";
+
 import CustomInput from "@/components/CustomInput.vue";
 
 export default defineComponent({
@@ -45,15 +53,15 @@ export default defineComponent({
   components: { CustomInput },
   data() {
     return {
-      name: "",
-      email: "",
-      password: "",
+      user: {} as User,
       confirmPassword: "",
     };
   },
   methods: {
-    signup() {
-      console.table({ name: this.name, email: this.email, pwd: this.password });
+    async signup() {
+      const token = await API.Signin(this.user);
+      this.$store.commit("setToken", token);
+      this.$router.push("/");
     },
   },
 });
