@@ -7,6 +7,7 @@ import VueApexCharts from "vue3-apexcharts";
 
 router.beforeEach((to, from, next) => {
   if (to.path !== "/auth" && to.path !== "/auth/login" && !store.getters.isAuthed) next("/auth");
+  else if ((to.path === "/auth" || to.path === "/auth/login") && store.getters.isAuthed) next("/");
   else next();
 });
 

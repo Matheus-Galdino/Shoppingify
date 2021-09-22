@@ -1,38 +1,42 @@
 <template>
-  <Nav @display-aside="toggleList" />
-
-  <template v-if="mobileView">
-    <router-view
-      v-if="!showAside"
-      @change-aside="
-        currentTab = $event;
-        showAside = true;
-      "
-      @show-toast="toggleToast($event)"
-    />
-
-    <component
-      v-else
-      :is="currentTab"
-      @change-aside="currentTab = $event"
-      @change-aside-and-close="
-        showAside = false;
-        currentTab = 'ActiveList';
-      "
-    ></component>
-  </template>
+  <router-view v-if="!isAuthed" />
 
   <template v-else>
-    <router-view
-      @show-toast="toggleToast($event)"
-      @change-aside="currentTab = $event"
-    />
+    <Nav @display-aside="toggleList" />
 
-    <component
-      :is="currentTab"
-      @change-aside="currentTab = $event"
-      @change-aside-and-close="currentTab = 'ActiveList'"
-    ></component>
+    <template v-if="mobileView">
+      <router-view
+        v-if="!showAside"
+        @change-aside="
+          currentTab = $event;
+          showAside = true;
+        "
+        @show-toast="toggleToast($event)"
+      />
+
+      <component
+        v-else
+        :is="currentTab"
+        @change-aside="currentTab = $event"
+        @change-aside-and-close="
+          showAside = false;
+          currentTab = 'ActiveList';
+        "
+      ></component>
+    </template>
+
+    <template v-else>
+      <router-view
+        @show-toast="toggleToast($event)"
+        @change-aside="currentTab = $event"
+      />
+
+      <component
+        :is="currentTab"
+        @change-aside="currentTab = $event"
+        @change-aside-and-close="currentTab = 'ActiveList'"
+      ></component>
+    </template>
   </template>
 
   <transition name="slide">
@@ -103,6 +107,9 @@ export default defineComponent({
     toastConfig() {
       return this.$store.state.toastConfig;
     },
+    isAuthed() {
+      return this.$store.state.userToken != "";
+    },
     percentage(): number {
       const value = Math.ceil(100 - (this.timeLeft * 100) / 2000);
       return value;
@@ -117,6 +124,12 @@ export default defineComponent({
     },
   },
   async beforeMount() {
+    const token = sessionStorage.getItem("token");
+
+    if (!token) return;
+
+    this.$store.commit("setToken", token);
+
     this.$store.commit("setLoading", true);
 
     await this.$store.dispatch("getItems");
