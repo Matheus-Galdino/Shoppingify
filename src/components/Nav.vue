@@ -25,24 +25,25 @@
       </li>
     </ul>
 
-    <div
-      class="cart"
-      :data-count="activeListCount"
-      @click="$emit('display-aside')"
-    >
-      <span class="material-icons-outlined"> shopping_cart </span>
-    </div>
+    <button class="exit" @click="logout">
+      <span class="material-icons"> logout </span>
+    </button>
   </nav>
 </template>
 
 <script lang="ts">
-import { mapGetters } from "vuex";
 import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "Nav",
+  methods: {
+    logout() {
+      sessionStorage.clear();
+      this.$store.commit("resetStore");
+      this.$router.push("/auth/login");
+    }
+  },
   computed: {
-    ...mapGetters(["activeListCount"]),
     top() {
       const routeName = this.$route.name?.toString();
 
@@ -103,34 +104,8 @@ nav {
   margin-bottom: 5rem;
 }
 
-.cart {
-  width: 4rem;
-  height: 4rem;
-  position: relative;
-
-  display: grid;
-  place-content: center;
-
-  padding: 1rem;
-  color: #fff;
-  cursor: pointer;
-  border-radius: 50%;
-  background: #f9a109;
-
-  &::before {
-    content: attr(data-count);
-    position: absolute;
-    top: 0;
-    right: 0;
-
-    color: #fff;
-    padding: 4px 6px;
-    font-size: 1.3rem;
-    font-weight: bold;
-    border-radius: 4px;
-    background: #eb5757;
-
-    transform: translateY(-50%);
-  }
+.exit {
+  color: #f9a109;
+  background: none;
 }
 </style>

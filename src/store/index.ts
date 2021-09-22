@@ -10,6 +10,21 @@ import ShoppingList from "@/models/ShoppingList.interface";
 import ShoppingListItem from "@/models/ShoppingListItem.interface";
 import Stat from "@/models/Stat.interface";
 
+const initialState = {
+  userToken: "",
+  loading: false,
+  showToast: false,
+  toastConfig: {} as Toast,
+  detailItem: {} as Item,
+  items: [] as Group<Item>[],
+  categories: [] as Category[],
+  lists: [] as ShoppingList[],
+  activeList: {} as ShoppingList,
+  topItems: [] as Stat[],
+  topCategories: [] as Stat[],
+  monthlySummary: [] as Stat[],
+};
+
 export default createStore({
   state: {
     userToken: "",
@@ -26,9 +41,6 @@ export default createStore({
     monthlySummary: [] as Stat[],
   },
   getters: {
-    activeListCount(state) {
-      return state.activeList?.items?.length ?? 0;
-    },
     getList: (state) => (listId: number) => state.lists.find((x) => x.id === listId),
     isAuthed: (state) => state.userToken != "",
   },
@@ -73,6 +85,9 @@ export default createStore({
     },
     setMonthlySummary(state, payload: Stat[]) {
       state.monthlySummary = payload;
+    },
+    resetStore(state) {
+      Object.assign(state, initialState);
     },
   },
   actions: {
