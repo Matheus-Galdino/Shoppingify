@@ -181,10 +181,10 @@ export default {
 
     return json.token;
   },
-  async Signin(user: User) {
+  async Signin(user: User, keepConnected: boolean) {
     const body = JSON.stringify(user);
 
-    const result = await fetch("https://localhost:44333/api/user/signin", {
+    const result = await fetch(`https://localhost:44333/api/user/signin?keepConnected=${keepConnected}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -195,6 +195,15 @@ export default {
     const json = await result.json();
 
     if (!result.ok) throw new Error(json.error);
+
+    return json;
+  },
+  async getConnectedUser(userHash: string) {
+    const result = await fetch(`https://localhost:44333/api/user/connected/${userHash}`);
+
+    const json = await result.json();
+
+    if (!result.ok) console.error(json.error);
 
     return json.token;
   },

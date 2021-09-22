@@ -9,8 +9,21 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
+import API from "@/API";
+
 export default defineComponent({
   name: "Auth",
+  async beforeMount() {
+    const userHash = localStorage.getItem("userHash");
+
+    if (!userHash) return;
+
+    const token = await API.getConnectedUser(userHash);
+
+    this.$store.commit("setToken", token);
+    sessionStorage.setItem("token", token);
+    this.$router.push("/");
+  },
 });
 </script>
 

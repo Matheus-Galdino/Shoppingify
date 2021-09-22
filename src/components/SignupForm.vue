@@ -59,7 +59,7 @@ export default defineComponent({
   },
   methods: {
     async signup() {
-      const token = await API.Signin(this.user);
+      const token = await API.Signup(this.user);
       this.$store.commit("setToken", token);
       sessionStorage.setItem("token", token);
       this.$router.push("/");

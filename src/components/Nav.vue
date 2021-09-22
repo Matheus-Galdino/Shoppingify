@@ -39,6 +39,7 @@ export default defineComponent({
   methods: {
     logout() {
       sessionStorage.clear();
+      localStorage.removeItem("userHash");
       this.$store.commit("resetStore");
       this.$router.push("/auth/login");
     }
