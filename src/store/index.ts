@@ -5,7 +5,11 @@ import Category from "@/models/Category.interface";
 
 import { createStore } from "vuex";
 
-import API from "../API";
+import ItemAPI from "@/services/ItemAPI";
+import ListAPI from "@/services/ListAPI";
+import StatsAPI from "@/services/StatsAPI";
+import CategoryAPI from "@/services/CategoryAPI";
+
 import ShoppingList from "@/models/ShoppingList.interface";
 import ShoppingListItem from "@/models/ShoppingListItem.interface";
 import Stat from "@/models/Stat.interface";
@@ -91,32 +95,32 @@ export default createStore({
     },
   },
   actions: {
-    async getItems({ commit }) {
-      const items = await API.getItems();
+    async getItems({ state, commit }) {
+      const items = await ItemAPI.getItems(state.userToken);
       commit("setItems", items);
     },
-    async getCategories({ commit }) {
-      const categories = await API.getCategories();
+    async getCategories({ state, commit }) {
+      const categories = await CategoryAPI.getCategories(state.userToken);
       commit("setCategories", categories);
     },
-    async getLists({ commit }) {
-      const lists = await API.getLists();
+    async getLists({ state, commit }) {
+      const lists = await ListAPI.getLists(state.userToken);
       commit("setLists", lists);
     },
     async getActiveListItems({ commit, state }) {
-      const items = await API.getListItems(state.activeList.id);
+      const items = await ListAPI.getListItems(state.activeList.id, state.userToken);
       commit("setActiveListItems", items);
     },
-    async getTopItems({ commit }) {
-      const topItems = await API.getTopItems();
+    async getTopItems({ state, commit }) {
+      const topItems = await StatsAPI.getTopItems(state.userToken);
       commit("setTopItems", topItems);
     },
-    async getTopCategories({ commit }) {
-      const topCategories = await API.getTopCategories();
+    async getTopCategories({ state, commit }) {
+      const topCategories = await StatsAPI.getTopCategories(state.userToken);
       commit("setTopCategories", topCategories);
     },
-    async getMonthlySummary({ commit }) {
-      const monthlySummary = await API.getMonthlySummary();
+    async getMonthlySummary({ state, commit }) {
+      const monthlySummary = await StatsAPI.getMonthlySummary(state.userToken);
       commit("setMonthlySummary", monthlySummary);
     },
   },
