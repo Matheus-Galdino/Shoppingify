@@ -29,7 +29,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
-import API from "@/API";
+import ListAPI from "@/services/ListAPI";
 import Group from "@/models/Group.interface";
 import ShoppingList from "@/models/ShoppingList.interface";
 import ShoppingListItem from "@/models/ShoppingListItem.interface";
@@ -48,13 +48,16 @@ export default defineComponent({
   },
   methods: {
     async getListItems(id: number) {
-      const groups = await API.getListItems(id);
+      const groups = await ListAPI.getListItems(id, this.token);
       this.itemGroups = groups;
     },
   },
   computed: {
     list(): ShoppingList {
       return this.$store.getters.getList(Number(this.id));
+    },
+    token(): string {
+      return this.$store.state.userToken;
     },
     formatedDate(): string {
       const date = new Date(this.list.date);

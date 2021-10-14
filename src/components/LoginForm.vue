@@ -34,7 +34,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
-import API from "@/API";
+import AuthAPI from "@/services/AuthAPI";
 import User from "@/models/User.interface";
 
 import CustomInput from "@/components/CustomInput.vue";
@@ -51,10 +51,7 @@ export default defineComponent({
   },
   methods: {
     async signIn() {
-      const { token, userHash } = await API.Signin(
-        this.user,
-        this.keepConnected
-      );
+      const { token, userHash } = await AuthAPI.Signin(this.user, this.keepConnected);
 
       if(userHash){
         localStorage.setItem("userHash", userHash);

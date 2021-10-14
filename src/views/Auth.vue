@@ -9,7 +9,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
-import API from "@/API";
+import AuthAPI from "@/services/AuthAPI";
 
 export default defineComponent({
   name: "Auth",
@@ -18,7 +18,7 @@ export default defineComponent({
 
     if (!userHash) return;
 
-    const token = await API.getConnectedUser(userHash);
+    const token = await AuthAPI.getConnectedUser(userHash);
 
     this.$store.commit("setToken", token);
     sessionStorage.setItem("token", token);

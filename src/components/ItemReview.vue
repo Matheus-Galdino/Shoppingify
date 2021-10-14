@@ -30,7 +30,8 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
-import API from "@/API";
+import ListAPI from "@/services/ListAPI";
+import ItemAPI from "@/services/ItemAPI";
 import Toast from "@/models/Toast.interface";
 
 export default defineComponent({
@@ -42,7 +43,7 @@ export default defineComponent({
   },
   methods: {
     async deleteItem() {
-      await API.deleteItem(this.item);
+      await ItemAPI.deleteItem(this.item, this.token);
       await this.$store.dispatch("getItems");
       this.$emit("change-aside-and-close");
 
@@ -62,7 +63,7 @@ export default defineComponent({
       }
 
       try {
-        await API.addItemToList(listId, this.item.id);
+        await ListAPI.addItemToList(listId, this.item.id, this.token);
         await this.$store.dispatch("getActiveListItems");
 
         this.toastConfig.error = false;
@@ -79,6 +80,9 @@ export default defineComponent({
   computed: {
     item() {
       return this.$store.state.detailItem;
+    },
+    token(): string {
+      return this.$store.state.userToken;
     },
   },
 });

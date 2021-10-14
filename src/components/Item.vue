@@ -6,10 +6,10 @@
 </template>
 
 <script lang="ts">
-import API from "@/API";
 import ItemType from "@/models/Item.interface";
 import Toast from "@/models/Toast.interface";
 import { defineComponent, PropType } from "vue";
+import ListAPI from "@/services/ListAPI";
 
 export default defineComponent({
   name: "Item",
@@ -34,7 +34,7 @@ export default defineComponent({
           throw new Error("Cannot add item without an active list");
         }
 
-        await API.addItemToList(listId, this.item.id);
+        await ListAPI.addItemToList(listId, this.item.id, this.token);
         await this.$store.dispatch("getActiveListItems");
 
         toastConfig.error = false;
@@ -48,6 +48,11 @@ export default defineComponent({
       }
     },
   },
+  computed: {
+    token(): string {
+      return this.$store.state.userToken;
+    },
+  }
 });
 </script>
 

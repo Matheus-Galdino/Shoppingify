@@ -19,7 +19,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
-import API from "@/API";
+import CategoryAPI from "@/services/CategoryAPI";
 import Toast from "@/models/Toast.interface";
 import Category from "@/models/Category.interface";
 
@@ -41,7 +41,7 @@ export default defineComponent({
         if (!this.category.name)
           throw new Error("Category name must not be empty");
 
-        await API.saveCategory(this.category);
+        await CategoryAPI.saveCategory(this.category, this.token);
         this.$store.dispatch("getCategories");
 
         this.$emit("close");
@@ -56,6 +56,11 @@ export default defineComponent({
       }
     },
   },
+  computed: {
+    token(): string {
+      return this.$store.state.userToken;
+    }
+  }
 });
 </script>
 

@@ -43,7 +43,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
-import API from "@/API";
+import AuthAPI from "@/services/AuthAPI";
 import User from "@/models/User.interface";
 
 import CustomInput from "@/components/CustomInput.vue";
@@ -59,7 +59,7 @@ export default defineComponent({
   },
   methods: {
     async signup() {
-      const token = await API.Signup(this.user);
+      const token = await AuthAPI.Signup(this.user);
       this.$store.commit("setToken", token);
       sessionStorage.setItem("token", token);
       this.$router.push("/");
@@ -67,6 +67,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style>
-</style>

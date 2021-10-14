@@ -22,7 +22,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
-import API from "@/API";
+import ListAPI from "@/services/ListAPI";
 import Toast from "@/models/Toast.interface";
 import ShoppingList from "@/models/ShoppingList.interface";
 
@@ -41,7 +41,7 @@ export default defineComponent({
       const toastConfig = {} as Toast;
 
       try {
-        await API.SaveList(this.list);
+        await ListAPI.SaveList(this.list, this.token);
         this.$store.dispatch("getLists");
 
         toastConfig.error = false;
@@ -66,6 +66,9 @@ export default defineComponent({
       const dayString = day < 10 ? "0" + day : day;
 
       return `${year}-${monthString}-${dayString}`;
+    },
+    token(): string {
+      return this.$store.state.userToken;
     },
   },
 });

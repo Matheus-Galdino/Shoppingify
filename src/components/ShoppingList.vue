@@ -36,7 +36,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
 
-import API from "@/API";
+import ListAPI from "@/services/ListAPI";
 import Toast from "@/models/Toast.interface";
 import ListStatus from "@/models/ListStatus.enum";
 import ShoppingList from "@/models/ShoppingList.interface";
@@ -77,12 +77,15 @@ export default defineComponent({
     canSetActive(): boolean {
       return this.list.status === ListStatus.In_Progress;
     },
+    token(): string {
+      return this.$store.state.userToken;
+    },
   },
   methods: {
     async changeActive() {
       if (this.list.active) return;
 
-      await API.changeActiveList(this.list.id);
+      await ListAPI.changeActiveList(this.list.id, this.token);
       await this.$store.dispatch("getLists");
       this.$store.commit("setActiveList");
       await this.$store.dispatch("getActiveListItems");
@@ -91,7 +94,7 @@ export default defineComponent({
       const toastConfig = {} as Toast;
 
       try {
-        await API.deleteList(this.list.id);
+        await ListAPI.deleteList(this.list.id, this.token);
         await this.$store.dispatch("getLists");
 
         toastConfig.error = false;

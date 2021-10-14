@@ -57,7 +57,7 @@
 </template>
 
 <script lang="ts">
-import API from "@/API";
+import ItemAPI from "@/services/ItemAPI";
 import Item from "@/models/Item.interface";
 import Toast from "@/models/Toast.interface";
 import Category from "@/models/Category.interface";
@@ -85,7 +85,7 @@ export default defineComponent({
       try {
         if (!this.item.name?.trim()) throw new Error("Name must not be empty");
 
-        await API.saveItem(this.item);
+        await ItemAPI.saveItem(this.item, this.token);
         this.$store.dispatch("getItems");
         this.closeTab();
 
@@ -110,6 +110,9 @@ export default defineComponent({
   computed: {
     categories() {
       return this.$store.state.categories;
+    },
+    token(): string {
+      return this.$store.state.userToken;
     },
   },
 });

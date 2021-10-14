@@ -72,7 +72,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
-import API from "@/API";
+import ListAPI from "@/services/ListAPI";
 import Toast from "@/models/Toast.interface";
 import EditQuantity from "./EditQuantity.vue";
 import ShoppingListItem from "./ShoppingListItem.vue";
@@ -92,7 +92,7 @@ export default defineComponent({
       const listId = this.activeList.id;
 
       try {
-        await API.changeListItemQuantity(listId, itemId, quantity);
+        await ListAPI.changeListItemQuantity(listId, itemId, quantity, this.token);
 
         this.toastConfig.error = false;
         this.toastConfig.message = "Quantity updated";
@@ -107,7 +107,7 @@ export default defineComponent({
     async removeItem(itemId: number) {
       const listId = this.activeList.id;
 
-      await API.removeItemFromList(listId, itemId);
+      await ListAPI.removeItemFromList(listId, itemId, this.token);
       this.$store.dispatch("getActiveListItems");
 
       this.toastConfig.error = false;
@@ -125,7 +125,7 @@ export default defineComponent({
         if (!ask) return;
       }
 
-      await API.changeListStatus(listId, listStatus);
+      await ListAPI.changeListStatus(listId, listStatus, this.token);
 
       await this.$store.dispatch("getLists");
 
@@ -143,6 +143,9 @@ export default defineComponent({
     isInStats() {
       const routeName = this.$route.name?.toString();
       return routeName === "Stats";
+    },
+    token(): string {
+      return this.$store.state.userToken;
     },
   },
 });
