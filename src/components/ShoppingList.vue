@@ -37,7 +37,7 @@
 import { defineComponent, PropType } from "vue";
 
 import ListAPI from "@/services/ListAPI";
-import Toast from "@/models/Toast.interface";
+import handleError from "@/utils/HandleError";
 import ListStatus from "@/models/ListStatus.enum";
 import ShoppingList from "@/models/ShoppingList.interface";
 
@@ -91,21 +91,10 @@ export default defineComponent({
       await this.$store.dispatch("getActiveListItems");
     },
     async remove() {
-      const toastConfig = {} as Toast;
-
-      try {
+      handleError(async () => {
         await ListAPI.deleteList(this.list.id, this.token);
         await this.$store.dispatch("getLists");
-
-        toastConfig.error = false;
-        toastConfig.message = "List deleted";
-      } catch (error) {
-        toastConfig.error = true;
-        toastConfig.message = error.message;
-      } finally {
-        this.$store.commit("setToastConfig", toastConfig);
-        this.$store.commit("setShowToast", true);
-      }
+      }, "List deleted");
     },
   },
 });

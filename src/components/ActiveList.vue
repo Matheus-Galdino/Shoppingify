@@ -13,31 +13,16 @@
       <div class="list__body">
         <h2 class="list-title">
           {{ activeList.name }}
-          <span class="material-icons" @click="isEditing = !isEditing">
-            edit
-          </span>
+          <span class="material-icons" @click="isEditing = !isEditing"> edit </span>
         </h2>
 
         <ul class="list-groups">
-          <li
-            class="group"
-            v-for="(group, index) in activeList?.items"
-            :key="index"
-          >
+          <li class="group" v-for="(group, index) in activeList?.items" :key="index">
             <h4 class="group-title">{{ group.key }}</h4>
 
             <ul class="group-items">
-              <Shopping-list-item
-                :key="item.id"
-                :item="item.item"
-                class="group-item"
-                v-for="item in group.items"
-              >
-                <Edit-quantity
-                  :itemQuantity="item.quantity"
-                  @delete="removeItem(item.item.id)"
-                  @confirm="updateQuantity(item.item.id, $event)"
-                />
+              <Shopping-list-item :key="item.id" :item="item.item" class="group-item" v-for="item in group.items">
+                <Edit-quantity :itemQuantity="item.quantity" @delete="removeItem(item.item.id)" @confirm="updateQuantity(item.item.id, $event)" />
               </Shopping-list-item>
             </ul>
           </li>
@@ -52,13 +37,9 @@
           </form>
         </footer>
         <footer class="list__footer" v-else-if="isInStats">
-          <button class="button cancel" @click="changeListStatus(false)">
-            cancel
-          </button>
+          <button class="button cancel" @click="changeListStatus(false)">cancel</button>
 
-          <button class="button complete" @click="changeListStatus(true)">
-            Complete
-          </button>
+          <button class="button complete" @click="changeListStatus(true)">Complete</button>
         </footer>
       </transition>
     </template>
@@ -73,10 +54,11 @@
 import { defineComponent } from "vue";
 
 import ListAPI from "@/services/ListAPI";
-import Toast from "@/models/Toast.interface";
+import handleError from "@/utils/HandleError";
+import ListStatus from "@/models/ListStatus.enum";
+
 import EditQuantity from "./EditQuantity.vue";
 import ShoppingListItem from "./ShoppingListItem.vue";
-import ListStatus from "@/models/ListStatus.enum";
 
 export default defineComponent({
   name: "ActiveList",
@@ -84,36 +66,23 @@ export default defineComponent({
   data() {
     return {
       isEditing: false,
-      toastConfig: {} as Toast,
     };
   },
   methods: {
     async updateQuantity(itemId: number, quantity: number) {
       const listId = this.activeList.id;
 
-      try {
+      handleError(async () => {
         await ListAPI.changeListItemQuantity(listId, itemId, quantity, this.token);
-
-        this.toastConfig.error = false;
-        this.toastConfig.message = "Quantity updated";
-      } catch (error) {
-        this.toastConfig.error = true;
-        this.toastConfig.message = error.message;
-      } finally {
-        this.$store.commit("setToastConfig", this.toastConfig);
-        this.$store.commit("setShowToast", true);
-      }
+      }, "Quantity updated");
     },
     async removeItem(itemId: number) {
       const listId = this.activeList.id;
 
-      await ListAPI.removeItemFromList(listId, itemId, this.token);
-      this.$store.dispatch("getActiveListItems");
-
-      this.toastConfig.error = false;
-      this.toastConfig.message = "Item removed";
-      this.$store.commit("setToastConfig", this.toastConfig);
-      this.$store.commit("setShowToast", true);
+      handleError(async () => {
+        await ListAPI.removeItemFromList(listId, itemId, this.token);
+        this.$store.dispatch("getActiveListItems");
+      }, "Item removed");
     },
     async changeListStatus(complete: string) {
       const listId = this.$store.state.activeList.id;

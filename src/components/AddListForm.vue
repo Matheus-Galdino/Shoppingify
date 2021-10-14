@@ -23,7 +23,7 @@
 import { defineComponent } from "vue";
 
 import ListAPI from "@/services/ListAPI";
-import Toast from "@/models/Toast.interface";
+import handleError from "@/utils/HandleError";
 import ShoppingList from "@/models/ShoppingList.interface";
 
 import CustomInput from "./CustomInput.vue";
@@ -38,22 +38,11 @@ export default defineComponent({
   },
   methods: {
     async saveList() {
-      const toastConfig = {} as Toast;
-
-      try {
+      handleError(async () => {
         await ListAPI.SaveList(this.list, this.token);
         this.$store.dispatch("getLists");
-
-        toastConfig.error = false;
-        toastConfig.message = "List created";
         this.$emit("close");
-      } catch (error) {
-        toastConfig.error = true;
-        toastConfig.message = error.message;
-      } finally {
-        this.$store.commit("setToastConfig", toastConfig);
-        this.$store.commit("setShowToast", true);
-      }
+      }, "List created");
     },
   },
   computed: {

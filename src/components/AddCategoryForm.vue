@@ -19,8 +19,8 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
+import handleError from "@/utils/HandleError";
 import CategoryAPI from "@/services/CategoryAPI";
-import Toast from "@/models/Toast.interface";
 import Category from "@/models/Category.interface";
 
 import CustomInput from "./CustomInput.vue";
@@ -35,25 +35,14 @@ export default defineComponent({
   },
   methods: {
     async addCategory() {
-      const toastConfig = {} as Toast;
-
-      try {
-        if (!this.category.name)
-          throw new Error("Category name must not be empty");
+      handleError(async () => {
+        if (!this.category.name) throw new Error("Category name must not be empty");
 
         await CategoryAPI.saveCategory(this.category, this.token);
         this.$store.dispatch("getCategories");
 
         this.$emit("close");
-        toastConfig.error = false;
-        toastConfig.message = "Category added";
-      } catch (error) {
-        toastConfig.error = true;
-        toastConfig.message = error.message;
-      } finally {
-        this.$store.commit("setToastConfig", toastConfig);
-        this.$store.commit("setShowToast", true);
-      }
+      }, "Category added");
     },
   },
   computed: {

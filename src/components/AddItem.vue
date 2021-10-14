@@ -57,12 +57,13 @@
 </template>
 
 <script lang="ts">
+import { defineComponent } from "vue";
+
 import ItemAPI from "@/services/ItemAPI";
 import Item from "@/models/Item.interface";
-import Toast from "@/models/Toast.interface";
 import Category from "@/models/Category.interface";
 
-import { defineComponent } from "vue";
+import handleError from "@/utils/HandleError";
 
 import Mask from "./Mask.vue";
 import CustomInput from "./CustomInput.vue";
@@ -80,24 +81,13 @@ export default defineComponent({
   },
   methods: {
     async save() {
-      const toastConfig = {} as Toast;
-
-      try {
+      handleError(async () => {
         if (!this.item.name?.trim()) throw new Error("Name must not be empty");
 
         await ItemAPI.saveItem(this.item, this.token);
         this.$store.dispatch("getItems");
         this.closeTab();
-
-        toastConfig.error = false;
-        toastConfig.message = "Item added";
-      } catch (error) {
-        toastConfig.error = true;
-        toastConfig.message = error.message;
-      } finally {
-        this.$store.commit("setToastConfig", toastConfig);
-        this.$store.commit("setShowToast", true);
-      }
+      }, "Item added");
     },
     closeTab() {
       this.$emit("change-aside-and-close");

@@ -32,49 +32,28 @@ import { defineComponent } from "vue";
 
 import ListAPI from "@/services/ListAPI";
 import ItemAPI from "@/services/ItemAPI";
-import Toast from "@/models/Toast.interface";
+import handleError from "@/utils/HandleError";
 
 export default defineComponent({
   name: "ItemReview",
-  data() {
-    return {
-      toastConfig: {} as Toast,
-    };
-  },
   methods: {
     async deleteItem() {
-      await ItemAPI.deleteItem(this.item, this.token);
-      await this.$store.dispatch("getItems");
-      this.$emit("change-aside-and-close");
-
-      this.toastConfig.error = false;
-      this.toastConfig.message = "Item deleted";
-      this.$store.commit("setToastConfig", this.toastConfig);
-      this.$store.commit("setShowToast", true);
-
-      this.$store.commit("setDetailItem", null);
+      handleError(async () => {
+        await ItemAPI.deleteItem(this.item, this.token);
+        await this.$store.dispatch("getItems");
+        this.$emit("change-aside-and-close");
+        this.$store.commit("setDetailItem", null);
+      }, "Item deleted");
     },
     async addToList() {
       const listId = this.$store.state.activeList?.id;
 
-      if (!listId) {
-        alert("Cannot add item without an active list");
-        return;
-      }
+      handleError(async () => {
+        if (!listId) throw new Error("Cannot add item without an active list");
 
-      try {
         await ListAPI.addItemToList(listId, this.item.id, this.token);
         await this.$store.dispatch("getActiveListItems");
-
-        this.toastConfig.error = false;
-        this.toastConfig.message = "Item added to list";
-      } catch (error) {
-        this.toastConfig.error = true;
-        this.toastConfig.message = error.message;
-      } finally {
-        this.$store.commit("setToastConfig", this.toastConfig);
-        this.$store.commit("setShowToast", true);
-      }
+      }, "Item added to list");
     },
   },
   computed: {
