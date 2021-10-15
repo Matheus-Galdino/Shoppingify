@@ -84,7 +84,7 @@ export default defineComponent({
         this.$store.dispatch("getActiveListItems");
       }, "Item removed");
     },
-    async changeListStatus(complete: string) {
+    async changeListStatus(complete: boolean) {
       const listId = this.$store.state.activeList.id;
       const listStatus = complete ? ListStatus.Completed : ListStatus.Cancelled;
 
