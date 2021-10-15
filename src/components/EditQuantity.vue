@@ -17,14 +17,25 @@
     <span class="material-icons icon" v-show="isEditing" @click="increase">
       add
     </span>
+    <Mask v-show="askConfirmation">
+      <Confirm-popup
+        @confirm="$emit('delete')"
+        @cancel="askConfirmation = false"
+        text="Are you sure you want to delete this item?"
+      />
+    </Mask>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 
+import Mask from "./Mask.vue";
+import ConfirmPopup from "./ConfirmPopup.vue";
+
 export default defineComponent({
   name: "EditQuantity",
+  components: { Mask, ConfirmPopup },
   props: {
     itemQuantity: {
       type: Number,
@@ -34,6 +45,7 @@ export default defineComponent({
   data() {
     return {
       isEditing: false,
+      askConfirmation: false,
       quantity: this.itemQuantity,
     };
   },
@@ -46,10 +58,8 @@ export default defineComponent({
         this.quantity--;
         return;
       }
-
-      //confirm deletion of item
-      const result = confirm("Are you sure you want to delete this item?");
-      if (result) this.$emit("delete");
+      
+      this.askConfirmation = true;
     },
     confirm() {
       this.isEditing = false;
