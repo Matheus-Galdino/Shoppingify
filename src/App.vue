@@ -46,7 +46,7 @@ import { defineComponent } from "vue";
 
 import Nav from "./components/Nav.vue";
 import Mask from "./components/Mask.vue";
-import Toast from "@/components/Toast.vue";
+import Toast from "./components/Toast.vue";
 import AddItem from "./components/AddItem.vue";
 import ActiveList from "./components/ActiveList.vue";
 import ItemReview from "./components/ItemReview.vue";
@@ -169,7 +169,7 @@ export default defineComponent({
   grid-template-columns: auto 1fr;
 
   @media (min-width: 800px) {
-    grid-template-columns: auto 1fr 400px;
+    grid-template-columns: auto 1fr 450px;
   }
 }
 
