@@ -17,8 +17,7 @@
 import { defineComponent, PropType } from "vue";
 
 import Item from "./Item.vue";
-import ItemType from "@/models/Item.interface";
-import GroupType from "@/models/Group.interface";
+import { Item as ItemType, Group as GroupType } from "@/models";
 
 export default defineComponent({
   components: { Item },

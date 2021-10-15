@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import Toast from "@/models/Toast.interface";
+import { Toast } from "@/models";
 import { defineComponent, PropType } from "vue";
 
 export default defineComponent({

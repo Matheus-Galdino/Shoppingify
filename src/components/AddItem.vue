@@ -60,8 +60,7 @@
 import { defineComponent } from "vue";
 
 import ItemAPI from "@/services/ItemAPI";
-import Item from "@/models/Item.interface";
-import Category from "@/models/Category.interface";
+import { Item, Category } from "@/models";
 
 import handleError from "@/utils/HandleError";
 

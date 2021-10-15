@@ -1,7 +1,4 @@
-import Item from "@/models/Item.interface";
-import Toast from "@/models/Toast.interface";
-import Group from "@/models/Group.interface";
-import Category from "@/models/Category.interface";
+import { Item, Toast, Group, Category, ShoppingList, ShoppingListItem, Stat } from "@/models";
 
 import { createStore } from "vuex";
 
@@ -9,10 +6,6 @@ import ItemAPI from "@/services/ItemAPI";
 import ListAPI from "@/services/ListAPI";
 import StatsAPI from "@/services/StatsAPI";
 import CategoryAPI from "@/services/CategoryAPI";
-
-import ShoppingList from "@/models/ShoppingList.interface";
-import ShoppingListItem from "@/models/ShoppingListItem.interface";
-import Stat from "@/models/Stat.interface";
 
 const initialState = {
   userToken: "",

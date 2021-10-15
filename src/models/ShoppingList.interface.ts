@@ -1,6 +1,4 @@
-import Group from "./Group.interface";
-import ListStatus from "./ListStatus.enum";
-import ShoppingListItem from "./ShoppingListItem.interface";
+import { Group, ListStatus, ShoppingListItem } from "./index";
 
 export default interface ShoppingList {
   id: number;

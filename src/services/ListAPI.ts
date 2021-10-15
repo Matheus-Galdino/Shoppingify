@@ -1,9 +1,6 @@
 import BaseService from "./BaseService";
 
-import Group from "@/models/Group.interface";
-import ListStatus from "@/models/ListStatus.enum";
-import ShoppingList from "@/models/ShoppingList.interface";
-import ShoppingListItem from "@/models/ShoppingListItem.interface";
+import { Group, ListStatus, ShoppingList, ShoppingListItem } from "@/models";
 
 export default class ListAPI extends BaseService {
   static async getLists(token: string) {

@@ -30,9 +30,7 @@
 import { defineComponent } from "vue";
 
 import ListAPI from "@/services/ListAPI";
-import Group from "@/models/Group.interface";
-import ShoppingList from "@/models/ShoppingList.interface";
-import ShoppingListItem from "@/models/ShoppingListItem.interface";
+import { Group, ShoppingList, ShoppingListItem } from "@/models";
 
 export default defineComponent({
   name: "ListDetails",

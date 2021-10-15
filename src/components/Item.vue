@@ -9,8 +9,8 @@
 import { defineComponent, PropType } from "vue";
 
 import ListAPI from "@/services/ListAPI";
+import { Item as ItemType } from "@/models";
 import handleError from "@/utils/HandleError";
-import ItemType from "@/models/Item.interface";
 
 export default defineComponent({
   name: "Item",

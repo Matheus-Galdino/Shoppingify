@@ -38,8 +38,7 @@ import { defineComponent, PropType } from "vue";
 
 import ListAPI from "@/services/ListAPI";
 import handleError from "@/utils/HandleError";
-import ListStatus from "@/models/ListStatus.enum";
-import ShoppingList from "@/models/ShoppingList.interface";
+import { ListStatus, ShoppingList } from "@/models";
 
 import Mask from "./Mask.vue";
 import CustomRadio from "./CustomRadio.vue";

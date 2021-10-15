@@ -43,8 +43,8 @@
 </template>
 
 <script lang="ts">
-import Progress from "@/components/Progress.vue";
 import { defineComponent } from "vue";
+import Progress from "@/components/Progress.vue";
 
 export default defineComponent({
   name: "Stats",

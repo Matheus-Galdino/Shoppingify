@@ -1,12 +1,7 @@
-import { ComponentCustomProperties } from "vue";
 import { Store } from "vuex";
+import { ComponentCustomProperties } from "vue";
 
-import Item from "./models/Item.interface";
-import Category from "./models/Category.interface";
-import ItemGroup from "./models/ItemGroup.interface";
-import ShoppingList from "./models/ShoppingList.interface";
-import Toast from "./models/Toast.interface";
-import Stat from "./models/Stat.interface";
+import { Item, Stat, Toast, Category, Group, ShoppingList} from "./models";
 
 declare module "@vue/runtime-core" {
   // declare your own store states

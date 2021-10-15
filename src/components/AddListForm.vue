@@ -22,9 +22,9 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
+import { ShoppingList } from "@/models";
 import ListAPI from "@/services/ListAPI";
 import handleError from "@/utils/HandleError";
-import ShoppingList from "@/models/ShoppingList.interface";
 
 import CustomInput from "./CustomInput.vue";
 

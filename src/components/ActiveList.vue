@@ -53,9 +53,9 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
+import { ListStatus } from "@/models";
 import ListAPI from "@/services/ListAPI";
 import handleError from "@/utils/HandleError";
-import ListStatus from "@/models/ListStatus.enum";
 
 import EditQuantity from "./EditQuantity.vue";
 import ShoppingListItem from "./ShoppingListItem.vue";

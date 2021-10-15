@@ -34,8 +34,8 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
+import { User } from "@/models";
 import AuthAPI from "@/services/AuthAPI";
-import User from "@/models/User.interface";
 
 import CustomInput from "@/components/CustomInput.vue";
 import CustomCheckbox from "@/components/CustomCheckbox.vue";

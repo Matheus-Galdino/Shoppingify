@@ -1,6 +1,5 @@
 import BaseService from "./BaseService";
-import Item from "@/models/Item.interface";
-import Group from "@/models/Group.interface";
+import { Item, Group } from "@/models";
 
 export default class ItemAPI extends BaseService {
   static async getItems(token: string) {

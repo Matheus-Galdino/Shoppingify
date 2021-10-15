@@ -26,26 +26,14 @@
     </template>
 
     <template v-else>
-      <router-view
-        @show-toast="toggleToast($event)"
-        @change-aside="currentTab = $event"
-      />
+      <router-view @show-toast="toggleToast($event)" @change-aside="currentTab = $event" />
 
-      <component
-        :is="currentTab"
-        @change-aside="currentTab = $event"
-        @change-aside-and-close="currentTab = 'ActiveList'"
-      ></component>
+      <component :is="currentTab" @change-aside="currentTab = $event" @change-aside-and-close="currentTab = 'ActiveList'"></component>
     </template>
   </template>
 
   <transition name="slide">
-    <Toast
-      v-show="showToast"
-      @close="closeToast"
-      :config="toastConfig"
-      :percentage="percentage"
-    />
+    <Toast v-show="showToast" @close="closeToast" :config="toastConfig" :percentage="percentage" />
   </transition>
 
   <Mask v-show="loading">
@@ -76,6 +64,27 @@ export default defineComponent({
     };
   },
   methods: {
+    async getData() {
+      this.$store.commit("setLoading", true);
+
+      await this.$store.dispatch("getItems");
+      await this.$store.dispatch("getLists");
+      await this.$store.dispatch("getCategories");
+      await this.$store.dispatch("getTopItems");
+      await this.$store.dispatch("getTopCategories");
+      await this.$store.dispatch("getMonthlySummary");
+
+      this.$store.commit("setActiveList");
+
+      if (!this.$store.state.activeList?.id) {
+        this.$store.commit("setLoading", false);
+        return;
+      }
+
+      await this.$store.dispatch("getActiveListItems");
+
+      this.$store.commit("setLoading", false);
+    },
     toggleList() {
       this.showAside = !this.showAside;
     },
@@ -122,6 +131,9 @@ export default defineComponent({
     showToast(newValue) {
       if (newValue) this.toggleToast();
     },
+    async isAuthed(newValue) {
+      if (newValue) await this.getData();
+    },
   },
   async beforeMount() {
     const token = sessionStorage.getItem("token");
@@ -130,25 +142,7 @@ export default defineComponent({
 
     this.$store.commit("setToken", token);
 
-    this.$store.commit("setLoading", true);
-
-    await this.$store.dispatch("getItems");
-    await this.$store.dispatch("getLists");
-    await this.$store.dispatch("getCategories");
-    await this.$store.dispatch("getTopItems");
-    await this.$store.dispatch("getTopCategories");
-    await this.$store.dispatch("getMonthlySummary");
-
-    this.$store.commit("setActiveList");
-
-    if (!this.$store.state.activeList?.id) {
-      this.$store.commit("setLoading", false);
-      return;
-    }
-
-    await this.$store.dispatch("getActiveListItems");
-
-    this.$store.commit("setLoading", false);
+    await this.getData();
   },
   mounted() {
     window.addEventListener("resize", () => {

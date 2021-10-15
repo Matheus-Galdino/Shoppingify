@@ -44,7 +44,7 @@
 import { defineComponent } from "vue";
 
 import AuthAPI from "@/services/AuthAPI";
-import User from "@/models/User.interface";
+import { User } from "@/models";
 
 import CustomInput from "@/components/CustomInput.vue";
 

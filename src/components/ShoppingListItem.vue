@@ -8,7 +8,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
 
-import Item from "@/models/Item.interface";
+import { Item } from "@/models";
 
 export default defineComponent({
   name: "ShoppingListItem",

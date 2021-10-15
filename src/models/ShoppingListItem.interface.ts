@@ -1,5 +1,4 @@
-import Item from "./Item.interface";
-import ShoppingList from "./ShoppingList.interface";
+import { Item, ShoppingList } from "./index";
 
 export default interface ShoppingListItem {
   Item: Item;

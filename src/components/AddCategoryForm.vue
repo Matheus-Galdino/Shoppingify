@@ -19,9 +19,9 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
+import { Category } from "@/models";
 import handleError from "@/utils/HandleError";
 import CategoryAPI from "@/services/CategoryAPI";
-import Category from "@/models/Category.interface";
 
 import CustomInput from "./CustomInput.vue";
 
